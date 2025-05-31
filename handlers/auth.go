@@ -1,4 +1,5 @@
-// controllers para manejar la autenticación de usuarios
+//controladores HTTP que reciben las peticiones del cliente, llaman a los servicios correspondientes y devuelven respuestas. Es el punto de entrada del backend a cada funcionalidad.
+
 package handlers
 
 import (
@@ -14,7 +15,7 @@ import (
 
 var jwtKey = []byte("clave") // Clave secreta para firmar el JWT
 
-// Registro de usuario
+// Registro de usuario  (recibe un json con los datos del usuario, hashea la contraseña, llama a crearusuario para guardar en la bd )
 func Register(c *gin.Context) {
 	var user models.Usuario
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -39,7 +40,7 @@ func Register(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"mensajee": "Usuario registrado exitosamente"})
 }
 
-// Login de usuario
+// Login de usuario (recibe datos, busca al usuario en BD, verifica la contra hasheada y si es correccto genera un JWT )
 func Login(c *gin.Context) {
 	var datos struct {
 		Email    string `json:"email"`
@@ -61,11 +62,13 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// Crea el JWT
+	// Crea el JWT (token de autorizacion permite que mantenga su sesion sin guardar datos en el servidor)
+	// El token contiene el ID del usuario, su email y rol, y una fecha de expiración
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"username": user.Email,
-		"rol":      user.Rol,
-		"exp":      time.Now().Add(time.Hour * 72).Unix(),
+		"usuarioID": user.ID,
+		"username":  user.Email,
+		"rol":       user.Rol,
+		"exp":       time.Now().Add(time.Hour * 72).Unix(),
 	})
 	tokenString, err := token.SignedString(jwtKey) // Firma el token con la clave secreta
 	if err != nil {

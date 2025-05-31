@@ -1,4 +1,4 @@
-//logica del negocio
+//logica del negocio:se toman decisiones, se hacen validaciones y se conecta el backend con la base de datos.
 
 package services
 
@@ -10,13 +10,13 @@ import (
 // Obtener todos las actividades de la base de datos
 func GetActividades() ([]models.Actividad, error) {
 	var actividades []models.Actividad
-	result := config.DB.Find(&actividades)
+	result := config.DB.Find(&actividades) //de gorm
 	return actividades, result.Error
 }
 
 // Obtener una actividad por su ID
-func GetActividad(id string) (*models.Actividad, error) {
-	var actividad models.Actividad
+func GetActividadPorID(id string) (*models.Actividad, error) {
+	var actividad models.Actividad //Devuelve un puntero a la estructura Actividad
 	result := config.DB.First(&actividad, id)
 	if result.Error != nil {
 		return nil, result.Error
@@ -24,13 +24,13 @@ func GetActividad(id string) (*models.Actividad, error) {
 	return &actividad, nil
 }
 
-// Agregar una nueva actividad
+// Agregar una nueva actividad en la base de datos
 func AddActividad(actividad models.Actividad) error {
-	result := config.DB.Create(&actividad)
+	result := config.DB.Create(&actividad) //solo los admin pueden hacerlo
 	return result.Error
 }
 
-// Actualizar una actividad existente
+// Actualizar una actividad existente y guarda los cambios en la bd
 func UpdateActividad(id string, updatedActividad models.Actividad) error {
 	var actividad models.Actividad
 	result := config.DB.First(&actividad, id)
@@ -43,12 +43,14 @@ func UpdateActividad(id string, updatedActividad models.Actividad) error {
 	actividad.Fecha = updatedActividad.Fecha
 	actividad.Duracion = updatedActividad.Duracion
 	actividad.Estado = updatedActividad.Estado
+	actividad.Instructor = updatedActividad.Instructor
+	actividad.Categoria = updatedActividad.Categoria
 	actividad.CupoMAX = updatedActividad.CupoMAX
 	return config.DB.Save(&actividad).Error
 }
 
-// Eliminar una actividad
+// Eliminar una actividad por id usando gorm
 func DeleteActividad(id uint) error {
-	result := config.DB.Delete(&models.Actividad{}, id)
+	result := config.DB.Delete(&models.Actividad{}, id) //usa soft delete por defecto (gorm.model) el registro no se borra del todo sino se marca como eliminado
 	return result.Error
 }

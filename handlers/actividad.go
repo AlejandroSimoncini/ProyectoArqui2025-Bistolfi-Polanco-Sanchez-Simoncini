@@ -1,4 +1,4 @@
-//controllers para manejar las actividades
+//controladores HTTP que reciben las peticiones del cliente, llaman a los servicios correspondientes y devuelven respuestas. Es el punto de entrada del backend a cada funcionalidad.
 
 package handlers
 
@@ -22,9 +22,9 @@ func GetActividades(c *gin.Context) {
 }
 
 // tener actividad especifica por ID
-func GetActividad(c *gin.Context) {
+func GetActividadPorID(c *gin.Context) {
 	id := c.Param("id")
-	actividad, err := services.GetActividad(id)
+	actividad, err := services.GetActividadPorID(id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"mensaje": "Actividad no encontrada"})
 		return
@@ -32,10 +32,10 @@ func GetActividad(c *gin.Context) {
 	c.JSON(http.StatusOK, actividad)
 }
 
-// agregar una nueva actividad
+// agregar una nueva actividad (admin)
 func CreateActividad(c *gin.Context) {
 	var actividad models.Actividad
-	if err := c.ShouldBindJSON(&actividad); err != nil {
+	if err := c.ShouldBindJSON(&actividad); err != nil { //usa sbj para tranformar el JSON en una estructura actividad
 		c.JSON(http.StatusBadRequest, gin.H{"mensaje": "Datos inválidos"})
 		return
 	}
@@ -48,9 +48,9 @@ func CreateActividad(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"mensaje": "Actividad creada exitosamente"})
 }
 
-// actualizar una actividad existente
+// actualizar una actividad existente (admin)
 func UpdateActividad(c *gin.Context) {
-	id := c.Param("id")
+	id := c.Param("id") //recibe el id por URL y los datos nuevos en el body de la petición (json)
 	var data models.Actividad
 	if err := c.ShouldBindJSON(&data); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"mensaje": "Datos inválidos"})
@@ -63,10 +63,10 @@ func UpdateActividad(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"mensaje": "Actividad actualizada"})
 }
 
-// eliminar una actividad
+// eliminar una actividad (admin)
 func DeleteActividad(c *gin.Context) {
 	idStr := c.Param("id")
-	id, err := strconv.ParseUint(idStr, 10, 64)
+	id, err := strconv.ParseUint(idStr, 10, 64) //convierte el ID recibido como string a tipo uint
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"mensaje": "ID inválido"})
 		return

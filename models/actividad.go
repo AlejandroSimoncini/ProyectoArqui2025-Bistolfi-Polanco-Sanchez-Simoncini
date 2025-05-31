@@ -9,9 +9,11 @@ type Actividad struct {
 	gorm.Model                  // Incluye ID, CreatedAt, UpdatedAt, DeletedAt
 	Nombre        string        `json:"nombre"`
 	Descripcion   string        `json:"descripcion"`
-	Fecha         string        `json:"fecha"`
+	Fecha         string        `json:"fecha"` //dia en que se dicta
 	Duracion      int           `json:"duracion"`
-	Estado        string        `json:"estado"`
-	CupoMAX       int           `json:"cupo_max"`
-	Inscripciones []inscripcion `gorm:"foreignKey:ActividadID"` //Define que una actividad tiene muchas inscripciones asociadas. gorm:Le dice a GORM que debe buscar en la tabla de inscripciones un campo llamado ActividadID, que actúa como clave foránea para relacionar inscripciones con actividades.
+	Categoria     string        `json:"categoria"`
+	Estado        string        `json:"estado"` //activa, cancelada , finalizada  ??
+	Instructor    string        `json:"instructor"`
+	CupoMAX       int           `json:"cupo_max"`               //cantidad maxima de inscriptos
+	Inscripciones []Inscripcion `gorm:"foreignKey:ActividadID"` //Relación 1:N → una actividad tiene muchas inscripciones. Se vincula con la clave foránea ActividadID en Inscripcion.
 }

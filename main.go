@@ -11,26 +11,33 @@ import (
 )
 
 func main() {
-	config.InitDB()    // Inicializar la conexión a la base de datos
-	r := gin.Default() // Crear una nueva instancia de Gin
+	config.InitDB()    // Inicializar la conexión a la base de datos (primero al iniciar programa)
+	r := gin.Default() // Crear una nueva instancia del framework web gin
 
-	r.POST("/register", handlers.Register) // Ruta para registrar un nuevo usuario
-	r.POST("/login", handlers.Login)       // Ruta para iniciar sesión
+	//rutas publicas (disponibles sin autenticación)
+	// Rutas públicas
+	r.POST("/register", handlers.Register)
+	r.POST("/login", handlers.Login)
+	r.GET("/actividades", handlers.GetActividades)
+	r.GET("/actividades/:id", handlers.GetActividadPorID)
 
-	//rutas publicas
-	r.GET("/actividades", handlers.GetActividades)                            // Obtener todas las actividades
-	r.GET("/actividades/:id", handlers.GetActividad)                          // Obtener una actividad específica por ID
-	r.GET("/usuarios/:id/actividades", handlers.GetActividadesPorUsuario)     // Obtener actividades de un usuario específico
-	r.POST("/inscribir/:usuario_id/:actividad_id", handlers.InscribirUsuario) // Inscribir un usuario a una actividad
-
-	// Rutas protegidas con middleware de autenticación
+	// Rutas para administradores
 	admin := r.Group("/admin")
-	admin.Use(middlewares.AuthMiddleware(), middlewares.AdminMiddleware()) // Aplicar middleware de autenticación y autorización
-
+	admin.Use(middlewares.AuthMiddleware(), middlewares.AdminMiddleware())
 	{
-		admin.POST("/actividad", handlers.CreateActividad)       // Crear una nueva actividad
-		admin.PUT("/actividad/:id", handlers.UpdateActividad)    // Actualizar una actividad existente
-		admin.DELETE("/actividad/:id", handlers.DeleteActividad) // Eliminar una actividad
+		admin.POST("/actividad", handlers.CreateActividad)
+		admin.PUT("/actividad/:id", handlers.UpdateActividad)
+		admin.DELETE("/actividad/:id", handlers.DeleteActividad)
+	}
+
+	// Rutas para socios autenticados
+	socio := r.Group("/socio")
+	socio.Use(middlewares.AuthMiddleware())
+	{
+		socio.POST("/inscribir/:usuario_id/:actividad_id", handlers.InscribirUsuario)
+		socio.GET("/usuarios/:id/actividades", handlers.GetActividadesPorUsuario)
+		socio.PUT("/inscripcion/:id", handlers.EditarInscripcion)
+		socio.DELETE("/inscripcion/:id", handlers.EliminarInscripcion)
 	}
 
 	// Iniciar el servidor en el puerto 80

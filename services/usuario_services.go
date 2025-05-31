@@ -1,4 +1,4 @@
-//logica del negocio
+//logica del negocio: se toman decisiones, se hacen validaciones y se conecta el backend con la base de datos.
 
 package services
 
@@ -8,9 +8,10 @@ import (
 )
 
 func CrearUsuario(user *models.Usuario) error {
-	return config.DB.Create(user).Error
+	return config.DB.Create(user).Error //inserta nuevo usuario en la bd, se usa durante el registro
 }
 
+// buscar usuario por mail, se usa en el login para verificar la identidad
 func ObtenerUsuarioPorEmail(email string) (*models.Usuario, error) {
 	var user models.Usuario
 	if err := config.DB.Where("email = ?", email).First(&user).Error; err != nil {

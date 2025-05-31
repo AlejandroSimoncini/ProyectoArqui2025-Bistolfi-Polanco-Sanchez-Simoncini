@@ -3,17 +3,18 @@
 package utils
 
 import (
-	"golang.org/x/crypto/bcrypt"
+	"crypto/sha256"
+	"encoding/hex"
 )
 
-// hashPassword toma una contraseña en texto plano y devuelve su hash.
+// HashPassword aplica SHA256 a la contraseña string recibida
 func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	return string(bytes), err
+	hash := sha256.Sum256([]byte(password))
+	return hex.EncodeToString(hash[:]), nil
 }
 
-// verifica si el hash de la contraseña coincide con la contraseña en texto plano.
+// Compara la contraseña en texto plano con el hash SHA256
 func CheckPasswordHash(password, hash string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
+	hashedPassword, _ := HashPassword(password) //hashea de nuevo la contra en string, compara el nuevo hash con el almacenado en la bd
+	return hashedPassword == hash               //validar credenciales en el login
 }
