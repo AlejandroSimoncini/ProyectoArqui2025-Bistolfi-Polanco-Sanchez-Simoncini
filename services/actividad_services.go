@@ -3,9 +3,16 @@
 package services
 
 import (
+	"errors"
 	"proyectoarquisoft/config"
 	"proyectoarquisoft/models"
 )
+
+var estadosValidos = map[string]bool{ //uso de mapa ya que es más eficiente porque se busca por clave
+	"activa":     true,
+	"cancelada":  true,
+	"finalizada": true,
+}
 
 // Obtener todos las actividades de la base de datos
 func GetActividades() ([]models.Actividad, error) {
@@ -26,8 +33,10 @@ func GetActividadPorID(id string) (*models.Actividad, error) {
 
 // Agregar una nueva actividad en la base de datos
 func AddActividad(actividad models.Actividad) error {
-	result := config.DB.Create(&actividad) //solo los admin pueden hacerlo
-	return result.Error
+	if !estadosValidos[actividad.Estado] {
+		return errors.New("estado inválido")
+	}
+	return config.DB.Create(&actividad).Error
 }
 
 // Actualizar una actividad existente y guarda los cambios en la bd
@@ -46,6 +55,10 @@ func UpdateActividad(id string, updatedActividad models.Actividad) error {
 	actividad.Instructor = updatedActividad.Instructor
 	actividad.Categoria = updatedActividad.Categoria
 	actividad.CupoMAX = updatedActividad.CupoMAX
+	if !estadosValidos[updatedActividad.Estado] {
+		return errors.New("estado inválido. Debe ser 'activa', 'cancelada' o 'finalizada'")
+	}
+
 	return config.DB.Save(&actividad).Error
 }
 

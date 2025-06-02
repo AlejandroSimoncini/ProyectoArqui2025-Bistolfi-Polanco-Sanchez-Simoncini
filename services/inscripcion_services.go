@@ -24,6 +24,10 @@ func InscribirUsuario(usuarioID uint, actividadID uint) error {
 		return errors.New("actividad no encontrada")
 	}
 
+	if actividad.Estado != "activa" {
+		return errors.New("no se puede inscribir: la actividad no está activa")
+	}
+
 	//cuenta cuantos inscritos hay y compara con el cupo maximo
 	var totalInscritos int64
 	config.DB.Model(&models.Inscripcion{}).Where("actividad_id = ?", actividadID).Count(&totalInscritos)
