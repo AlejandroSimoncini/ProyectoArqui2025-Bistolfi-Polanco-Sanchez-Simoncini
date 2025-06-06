@@ -1,0 +1,18 @@
+{
+    "users":[
+    {
+      "id": 1,
+      "name": "admin",
+      "password": "1234",
+      "image": "",
+      "esAdmin": true
+    },
+    {
+      "id": 2,
+      "name": "pedro",
+      "password": "pedro123",
+      "image": "",
+      "esAdmin": false
+    }
+    ]
+}

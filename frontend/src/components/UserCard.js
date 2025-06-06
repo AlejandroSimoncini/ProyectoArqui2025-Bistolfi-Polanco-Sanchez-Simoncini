@@ -1,4 +1,4 @@
-function ActivityCard({ activity, onClick }) {
+function UserCard ({user, onClick}) {
   return (
     <div
       onClick={onClick}
@@ -10,10 +10,9 @@ function ActivityCard({ activity, onClick }) {
         cursor: 'pointer'
       }}
     >
-      <h2>{activity.title}</h2>
-      <p><strong>Día:</strong> {activity.day}</p>
+      <h2>{user.name}</h2>
     </div>
   );
 }
 
-export default ActivityCard;
+export default UserCard;
