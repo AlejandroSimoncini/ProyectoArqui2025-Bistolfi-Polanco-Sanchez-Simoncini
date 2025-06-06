@@ -3,6 +3,7 @@ import '../styles/home.css';
 import '../pages/ActivityDetail'
 import ActivityCard from '../components/ActivityCard'
 import ActivityData from '../mocks/activities.json'
+import { Link } from 'react-router-dom';
 
 
 
@@ -71,12 +72,12 @@ const ActivitySearch = () => {
                 <p>No se encontraron actividades.</p>
             ) : (
                 filteredActivities.map((activity) => (
-                    <ActivityCard
-                        key={activity.id}
-                        activity={activity}
-                        onClick={() => setSelectedActivity(activity)}
-                    />
-                ))
+  <Link to={`/home/actividad/${activity.id}`} key={activity.id} style={{ textDecoration: 'none' }}>
+    <ActivityCard
+      activity={activity}
+    />
+  </Link>
+))
             )}
         </div>
     );

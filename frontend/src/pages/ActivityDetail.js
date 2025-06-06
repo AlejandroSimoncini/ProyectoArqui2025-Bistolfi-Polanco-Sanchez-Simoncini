@@ -85,7 +85,7 @@ function ActivityDetail() {
         </p>
       )}
       <div style={{ marginTop: 30 }}>
-        <Link to="/" style={{
+        <Link to="/home" style={{
           textDecoration: 'none',
           backgroundColor: '#007bff',
           color: 'white',
