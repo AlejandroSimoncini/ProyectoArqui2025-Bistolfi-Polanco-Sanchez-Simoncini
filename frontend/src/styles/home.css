@@ -126,8 +126,6 @@ body{
         grid-area: 1 / 4 / 6 / 6;
         background-color: wheat;
         border-radius: 20px;
-        max-height: 400px;
-        overflow-y: auto;
         margin: 0.5rem;
         padding: 0.5rem;
         color: rgb(1, 80, 54);
@@ -180,9 +178,17 @@ body{
 
 .allUsersList{
     background-color: wheat;
+    padding: 1%;
+    width: auto;
+    max-height: 500px;
     border-radius: 20px;
     margin-right: 0.5rem;
+
+    overflow-y: auto;
 }
 .usersContainer{
     background-color: transparent;
+    max-height: 500px;
+    width: 100%;
+
 }

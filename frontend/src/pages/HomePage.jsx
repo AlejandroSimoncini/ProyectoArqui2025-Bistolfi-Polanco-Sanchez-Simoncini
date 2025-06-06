@@ -24,10 +24,8 @@ const HomePage = () => {
     <div className="home-container">   {/* DIV PRINCIPAL*/}
         <div className="gridContainer"> {/* DISEÑO DEL CUADRO CON INFORMACIOIN DE LA PAGINA*/}
             {user.esAdmin && (
-            <div className='allUsersList'>
-                <div className='usersContainer'>
-                    <AllUsersInfo/>
-                </div>
+            <div className="allUsersList">
+                <AllUsersInfo/>
             </div>
         )}
         <div className="parent">
@@ -46,7 +44,9 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className="div3">  {/* DIV CON BUSCADOR Y TODAS LAS ACTIVIDADES DEL GIMNASIO*/}
-                    <ActivitySearch/>
+                    <div className='allActivityInfo'>
+                        <ActivitySearch/>
+                    </div>
                 </div>
             </div>
         </div>  
