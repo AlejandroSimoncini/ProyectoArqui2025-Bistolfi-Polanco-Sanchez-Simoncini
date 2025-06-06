@@ -4,7 +4,7 @@ function UserCard ({user, onClick}) {
       onClick={onClick}
       style={{
         border: '1px solid #ccc',
-        padding: 15,
+        padding: 10,
         borderRadius: 8,
         marginBottom: 10,
         cursor: 'pointer'

@@ -37,23 +37,29 @@ const AllUsersInfo = () =>{
 
     return(
         <div>
-            <input 
-            type="text" 
-            placeholder="Buscar por nombre"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="search"
-            />
-            {filteredUsers.length === 0 ? (
-                <p>No se encontraron Usuarios.</p>
-            ) : (
-                filteredUsers.map((user) => (
-                    <UserCard
-                        key={user.id}
-                        user = {user}
-                    />
-                ))
-            )}
+            <div className="searchBarContainer">
+                <input 
+                type="text" 
+                placeholder="Buscar por nombre"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="search"
+                />
+            </div>
+
+            <div className="usersContainer">
+                {filteredUsers.length === 0 ? (
+                    <p>No se encontraron Usuarios.</p>
+                ) : (
+                    filteredUsers.map((user) => (
+                        <UserCard
+                            key={user.id}
+                            user = {user}
+                        />
+                    ))
+                )}
+            </div>
+
         </div>
     );
 }

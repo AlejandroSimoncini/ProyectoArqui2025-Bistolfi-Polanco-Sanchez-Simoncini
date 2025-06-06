@@ -1,5 +1,5 @@
 {
-    "users":[
+  "users": [
     {
       "id": 1,
       "name": "admin",
@@ -13,6 +13,27 @@
       "password": "pedro123",
       "image": "",
       "esAdmin": false
+    },
+    {
+      "id": 3,
+      "name": "laura",
+      "password": "laura456",
+      "image": "",
+      "esAdmin": false
+    },
+    {
+      "id": 4,
+      "name": "maria",
+      "password": "maria789",
+      "image": "",
+      "esAdmin": false
+    },
+    {
+      "id": 5,
+      "name": "carlos",
+      "password": "carlos321",
+      "image": "",
+      "esAdmin": true
     }
-    ]
+  ]
 }
