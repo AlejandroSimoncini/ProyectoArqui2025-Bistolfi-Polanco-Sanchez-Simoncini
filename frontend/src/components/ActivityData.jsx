@@ -46,40 +46,39 @@ const ActivityInfo = () =>{
     );
 }
 
-const ActivitySearch = () =>{
-    const activiies_1 = JSON.parse(ActivityData.activities)
-    const [activities] = useState(activiies_1);
+const ActivitySearch = () => {
+    const activities_1 = ActivityData.activities; // ya es un objeto JS, no uses JSON.parse
+    const [activities] = useState(activities_1);
     const [search, setSearch] = useState("");
     const [selectedActivity, setSelectedActivity] = useState(null);
 
     const filteredActivities = activities.filter((activity) =>
-        activiies_1.title.toLowerCase().includes(search.toLowerCase()) ||
-        activiies_1.category.toLowerCase().includes(search.toLowerCase()) ||
-        activiies_1.day.toLowerCase().includes(search.toLowerCase())
+        activity.title.toLowerCase().includes(search.toLowerCase()) ||
+        activity.category.toLowerCase().includes(search.toLowerCase()) ||
+        activity.day.toLowerCase().includes(search.toLowerCase())
     );
 
-    return(
+    return (
         <div>
             <input 
-            type="text" 
-            placeholder = "Buscar por titulo, categoria o dia"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="search"
+                type="text" 
+                placeholder="Buscar por título, categoría o día"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="search"
             />
             {filteredActivities.length === 0 ? (
                 <p>No se encontraron actividades.</p>
             ) : (
-                filteredActivities.map(activity => (
+                filteredActivities.map((activity) => (
                     <ActivityCard
-                    key={activity.id}
-                    activity={activity}
-                   onClick={() => setSelectedActivity(activity)}
+                        key={activity.id}
+                        activity={activity}
+                        onClick={() => setSelectedActivity(activity)}
                     />
-
                 ))
             )}
         </div>
     );
-}
+};
 export { ActivitiesImages, ActivityInfo, ActivitySearch};

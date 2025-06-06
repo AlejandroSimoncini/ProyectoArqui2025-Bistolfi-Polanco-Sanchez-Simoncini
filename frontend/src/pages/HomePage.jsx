@@ -8,7 +8,8 @@ import ActivityDetail from './ActivityDetail';
 import '../components/ActivityData' 
 import { ActivitiesImages, ActivityInfo, ActivitySearch } from '../components/ActivityData';
 import '../components/UserData'
-import UserInfo from '../components/UserData';
+import { UserInfo } from '../components/UserData';
+import { AllUsersInfo } from '../components/UserData';
 
 
 const HomePage = () => {
@@ -16,18 +17,19 @@ const HomePage = () => {
 
 
 
-    const user = {
-        name: "Martina Polanco",
-        image: "",
-        esAdmin: true
-    };
-    
-    
+    const user = JSON.parse(localStorage.getItem("user"));
 
 
   return (
     <div className="home-container">   {/* DIV PRINCIPAL*/}
         <div className="gridContainer"> {/* DISEÑO DEL CUADRO CON INFORMACIOIN DE LA PAGINA*/}
+            {user.esAdmin && (
+            <div className='allUsersList'>
+                <div className='usersContainer'>
+                    <AllUsersInfo/>
+                </div>
+            </div>
+        )}
         <div className="parent">
             <div className="div1">  {/* DIV CON DATOS MENORES DE LAS ACTIVIDADES*/}
                 <div className="left">
@@ -54,7 +56,7 @@ const HomePage = () => {
                 <button><strong>Lista de Usuarios</strong></button>
                 <button><strong>Agregar actividad</strong></button>
             </div>
-            )}
+        )}
     </div>
     
   );
