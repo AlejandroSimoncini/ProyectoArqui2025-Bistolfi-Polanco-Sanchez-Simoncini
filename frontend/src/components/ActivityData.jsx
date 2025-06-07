@@ -3,14 +3,10 @@ import '../styles/home.css';
 import '../pages/ActivityDetail'
 import ActivityCard from '../components/ActivityCard'
 import ActivityData from '../mocks/activities.json'
+import { Link } from 'react-router-dom'; // Agregá esto arriba del archivo
 
-
-
-const ActivitiesImages = () => {
-    const defaultProfileImage = "https://i.pinimg.com/474x/bd/f4/d3/bdf4d3fe1f9a17136319df951fe9b3e0.jpg";
-    const [selectedActivity, setSelectedActivity] = useState(null);
-
-
+const ActivitiesImages = ({ selectedActivity }) => {
+  const defaultProfileImage = "https://i.pinimg.com/474x/bd/f4/d3/bdf4d3fe1f9a17136319df951fe9b3e0.jpg";
   return (
     <div>
       {selectedActivity ? (
@@ -26,59 +22,64 @@ const ActivitiesImages = () => {
   );
 };
 
-const ActivityInfo = () =>{
-    const [selectedActivity, setSelectedActivity] = useState(null);
 
-    return(
-        <div>
-            {selectedActivity ? (
-                <>
-                <p><strong>Profesor: </strong>{selectedActivity.professor}</p>
-                <p><strong>Actividad: {selectedActivity.category}</strong></p>
-                <p><strong>Día: {selectedActivity.day}</strong></p>
-                <p><strong>Hora: {selectedActivity.time}</strong></p>
-                <button className="activityButton">Ver mas info.</button>
-                </>
-              ) : (
-                <p>Hacé clic en una actividad para ver los detalles</p>
-            )}
-        </div>
-    );
-}
 
-const ActivitySearch = () => {
-    const activities_1 = ActivityData.activities; // ya es un objeto JS, no uses JSON.parse
-    const [activities] = useState(activities_1);
-    const [search, setSearch] = useState("");
-    const [selectedActivity, setSelectedActivity] = useState(null);
+const ActivityInfo = ({ selectedActivity }) => {
+  return (
+    <div>
+      {selectedActivity ? (
+        <>
+          <p><strong>Profesor: </strong>{selectedActivity.professor}</p>
+          <p><strong>Actividad: {selectedActivity.category}</strong></p>
+          <p><strong>Día: {selectedActivity.day}</strong></p>
+          <p><strong>Hora: {selectedActivity.time}</strong></p>
 
-    const filteredActivities = activities.filter((activity) =>
-        activity.title.toLowerCase().includes(search.toLowerCase()) ||
-        activity.category.toLowerCase().includes(search.toLowerCase()) ||
-        activity.day.toLowerCase().includes(search.toLowerCase())
-    );
-
-    return (
-        <div>
-            <input 
-                type="text" 
-                placeholder="Buscar por título, categoría o día"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="search"
-            />
-            {filteredActivities.length === 0 ? (
-                <p>No se encontraron actividades.</p>
-            ) : (
-                filteredActivities.map((activity) => (
-                    <ActivityCard
-                        key={activity.id}
-                        activity={activity}
-                        onClick={() => setSelectedActivity(activity)}
-                    />
-                ))
-            )}
-        </div>
-    );
+          <Link to={`/home/actividad/${selectedActivity.id}`}>
+            <button className="activityButton">Ver más info.</button>
+          </Link>
+        </>
+      ) : (
+        <p>Hacé clic en una actividad para ver los detalles</p>
+      )}
+    </div>
+  );
 };
+
+
+
+const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
+  const activities_1 = ActivityData.activities;
+  const [activities] = useState(activities_1);
+  const [search, setSearch] = useState("");
+
+  const filteredActivities = activities.filter((activity) =>
+    activity.title.toLowerCase().includes(search.toLowerCase()) ||
+    activity.category.toLowerCase().includes(search.toLowerCase()) ||
+    activity.day.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div>
+      <input 
+        type="text" 
+        placeholder="Buscar por título, categoría o día"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="search"
+      />
+      {filteredActivities.length === 0 ? (
+        <p>No se encontraron actividades.</p>
+      ) : (
+        filteredActivities.map((activity) => (
+          <ActivityCard
+            key={activity.id}
+            activity={activity}
+            onClick={() => setSelectedActivity(activity)}
+          />
+        ))
+      )}
+    </div>
+  );
+};
+
 export { ActivitiesImages, ActivityInfo, ActivitySearch};

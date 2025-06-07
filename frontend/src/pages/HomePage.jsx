@@ -16,6 +16,7 @@ const HomePage = () => {
 
 
 
+    const [selectedActivity, setSelectedActivity] = useState(null);
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -40,10 +41,10 @@ const HomePage = () => {
                 <div className="parent">
                     <div className="div1"> {/* DIV CON DATOS MENORES DE LAS ACTIVIDADES*/}
                         <div className="left">
-                            <ActivitiesImages/>
+                            <ActivitiesImages selectedActivity={selectedActivity}/>
                         </div>
                         <div className="rigth">
-                            <ActivityInfo/>
+                            <ActivityInfo selectedActivity={selectedActivity}/>
                         </div>
                     </div>
                     <div className="div2"> {/* DIV CON DATOS MENORES DEL USUARIO*/}
@@ -53,7 +54,8 @@ const HomePage = () => {
                     </div>
                     <div className="div3"> {/* DIV CON BUSCADOR Y TODAS LAS ACTIVIDADES DEL GIMNASIO*/}
                         <div className='allActivityInfo'>
-                            <ActivitySearch/>
+                            <ActivitySearch selectedActivity={selectedActivity}
+                                            setSelectedActivity={setSelectedActivity}/>
                         </div>
                     </div>
                 </div>

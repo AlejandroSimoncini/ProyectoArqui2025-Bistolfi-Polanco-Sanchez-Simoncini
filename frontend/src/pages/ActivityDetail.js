@@ -1,38 +1,10 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import activities from '../mocks/activities.json';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 function ActivityDetail() {
-  const { id } = useParams(); // Obtenemos el ID desde la URL
-
-  // Datos simulados (los mismos que en Home.js)
-  const fakeActivities = [
-    {
-      id: 1,
-      title: "Spinning",
-      day: "Lunes",
-      time: "18:00",
-      professor: "Laura",
-      category: "Cardio",
-      description: "Clase intensa de cardio sobre bicicleta fija.",
-      duration: "45 min",
-      capacity: 20
-    },
-    {
-      id: 2,
-      title: "Funcional",
-      day: "Martes",
-      time: "19:00",
-      professor: "Carlos",
-      category: "Fuerza",
-      description: "Entrenamiento funcional de cuerpo completo.",
-      duration: "50 min",
-      capacity: 15
-    }
-  ];
-
-  // Buscar actividad por ID (usamos Number porque id viene como string)
-  const activity = fakeActivities.find(a => a.id === Number(id));
+  const { id } = useParams(); // ID desde la URL
+  const activity = activities.activities.find(a => a.id === Number(id));
   const [inscripto, setInscripto] = useState(false);
   const [mensaje, setMensaje] = useState("");
 
@@ -44,7 +16,7 @@ function ActivityDetail() {
       setMensaje("¡Inscripción realizada con éxito! ✅");
     }
   };
-  // Si no se encuentra, mostramos un mensaje
+
   if (!activity) {
     return (
       <div style={{ padding: 20 }}>
@@ -63,6 +35,7 @@ function ActivityDetail() {
       <p><strong>Categoría:</strong> {activity.category}</p>
       <p><strong>Cupo:</strong> {activity.capacity} personas</p>
       <p><strong>Descripción:</strong> {activity.description}</p>
+
       <button
         onClick={manejarInscripcion}
         disabled={inscripto}
@@ -84,8 +57,9 @@ function ActivityDetail() {
           {mensaje}
         </p>
       )}
+
       <div style={{ marginTop: 30 }}>
-        <Link to="/" style={{
+        <Link to="/home" style={{
           textDecoration: 'none',
           backgroundColor: '#007bff',
           color: 'white',
@@ -95,8 +69,6 @@ function ActivityDetail() {
           ← Volver al inicio
         </Link>
       </div>
-
-
     </div>
   );
 }
