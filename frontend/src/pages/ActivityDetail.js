@@ -64,12 +64,10 @@ function ActivityDetail() {
 
       {user?.esAdmin && (
         <div className="admin-buttons">
-          <button
-            className="edit-button"
-            onClick={() => alert("Funcionalidad de edición aún no implementada")}
-          >
-            Editar
-          </button>
+          <Link to={`/actividad/${activity.id}/editar`}>
+          <button className="edit-button">Editar</button>
+          </Link>
+
           <button
             className="delete-button"
             onClick={() => alert("Funcionalidad de eliminación aún no implementada")}
