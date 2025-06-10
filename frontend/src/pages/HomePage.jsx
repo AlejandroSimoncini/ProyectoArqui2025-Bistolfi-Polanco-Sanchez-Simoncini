@@ -102,13 +102,7 @@ const handleLogout = () => {
     <div className="myActivitiesList">
         <h2>Mis Actividades</h2>
         <ul>
-            {user.actividadesInscripto && user.actividadesInscripto.length > 0 ? (
-                user.actividadesInscripto.map((actividad, index) => (
-                    <li key={index}>{actividad}</li>
-                ))
-            ) : (
                 <li>No estás inscripto a ninguna actividad</li>
-            )}
         </ul>
     </div>
 )}
