@@ -34,9 +34,19 @@ const handleShowMyActivitiesClick = () => {
   setShowMyActivities(!showMyActivities);
 };
 
+const handleLogout = () => {
+    localStorage.removeItem("user"); // Esto es crucial: elimina la sesión del usuario.
+    navigate("/"); // Redirige a la ruta raíz, que en tu App.js es la página de Login.
+};
+
 
   return (
         <div className="home-container"> {/* DIV PRINCIPAL*/}
+        <div className="logout-button-container">
+    <button onClick={handleLogout} className="logout-button">
+        <strong>Cerrar Sesión</strong>
+    </button>
+</div>
             <div className="gridContainer"> {/* DISEÑO DEL CUADRO CON INFORMACIOIN DE LA PAGINA*/}
                 {/*
                     2. Modificamos el renderizado condicional:
