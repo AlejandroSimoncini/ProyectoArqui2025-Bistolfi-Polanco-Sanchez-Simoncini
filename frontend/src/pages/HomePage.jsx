@@ -10,7 +10,7 @@ import { ActivitiesImages, ActivityInfo, ActivitySearch } from '../components/Ac
 import '../components/UserData'
 import { UserInfo } from '../components/UserData';
 import { AllUsersInfo } from '../components/UserData';
-
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
 
@@ -21,10 +21,12 @@ const HomePage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
 
     const [showUsersList, setShowUsersList] = useState(false);
+    const navigate = useNavigate();
 
     const handleShowUsersClick = () => {
         setShowUsersList(!showUsersList);
     };
+    const handleAddActivity = () => navigate("/actividad/nueva");
 
   return (
         <div className="home-container"> {/* DIV PRINCIPAL*/}
@@ -67,9 +69,9 @@ const HomePage = () => {
                     <button onClick={handleShowUsersClick}>
                         <strong>Lista de Usuarios</strong>
                     </button>
-                    <button>
-                        <strong>Agregar actividad</strong>
-                    </button>
+                    <button onClick={handleAddActivity}>
+                    <strong>Agregar actividad</strong>
+                </button>
                 </div>
             )}
         </div>

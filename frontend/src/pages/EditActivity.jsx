@@ -1,25 +1,38 @@
 // src/pages/EditActivity.jsx
 import { useParams, useNavigate } from 'react-router-dom';
 import activities from '../mocks/activities.json';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/EditActivity.css';
 
 const EditActivity = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // puede ser undefined si es nueva actividad
   const navigate = useNavigate();
-  const activity = activities.activities.find(a => a.id === Number(id));
 
+  // Cargamos actividades desde localStorage o mock
+  const storedActivities = JSON.parse(localStorage.getItem("activities")) || activities.activities;
+
+  // Si hay id, buscamos la actividad; si no, estamos en modo "crear"
+  const isNew = !id;
+  const existingActivity = storedActivities.find(a => a.id === Number(id));
+
+  // Estado del formulario
   const [formData, setFormData] = useState({
-    title: activity?.title || "",
-    professor: activity?.professor || "",
-    day: activity?.day || "",
-    time: activity?.time || "",
-    duration: activity?.duration || "",
-    category: activity?.category || "",
-    capacity: activity?.capacity || "",
-    description: activity?.description || "",
-    imagen: activity?.imagen || ""
+    Nombre: "",
+    profesor: "",
+    dia: "",
+    tiempo: "",
+    duracion: "",
+    categoria: "",
+    capacidad: "",
+    descripcion: "",
   });
+
+  // Si estamos editando, cargamos los datos de la actividad al estado
+  useEffect(() => {
+    if (!isNew && existingActivity) {
+      setFormData(existingActivity);
+    }
+  }, [existingActivity, isNew]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,16 +42,34 @@ const EditActivity = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    alert("Actividad editada (simulado)\n\n" + JSON.stringify(formData, null, 2));
-    navigate(`/actividad/${id}`);
+    if (isNew) {
+      // Crear nueva actividad
+      const nuevaActividad = {
+        ...formData,
+        id: Date.now() // genera un ID único
+      };
+      const nuevasActividades = [...storedActivities, nuevaActividad];
+      localStorage.setItem("activities", JSON.stringify(nuevasActividades));
+      alert("✅ Actividad creada con éxito");
+      navigate("/home");
+    } else {
+      // Editar actividad existente (solo simulación)
+      const actividadesActualizadas = storedActivities.map(a =>
+        a.id === Number(id) ? { ...formData, id: Number(id) } : a
+      );
+      localStorage.setItem("activities", JSON.stringify(actividadesActualizadas));
+      alert("✅ Cambios guardados");
+      navigate(`/home/actividad/${id}`);
+    }
   };
-  // console.log("EditActivity cargado");
 
-  if (!activity) return <p>Actividad no encontrada.</p>;
+  if (!isNew && !existingActivity) {
+    return <p>Actividad no encontrada.</p>;
+  }
 
   return (
     <div className="edit-container">
-      <h2>Editar actividad: {activity.title}</h2>
+      <h2>{isNew ? "Crear nueva actividad" : `Editar actividad: ${formData.title}`}</h2>
       <form onSubmit={handleSubmit}>
         {Object.keys(formData).map((key) => (
           <div key={key} className="form-group">
@@ -48,10 +79,11 @@ const EditActivity = () => {
               name={key}
               value={formData[key]}
               onChange={handleChange}
+              required
             />
           </div>
         ))}
-        <button type="submit">Guardar cambios</button>
+        <button type="submit">{isNew ? "Crear actividad" : "Guardar cambios"}</button>
       </form>
     </div>
   );

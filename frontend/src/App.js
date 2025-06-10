@@ -14,6 +14,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/home/actividad/:id" element={<ActivityDetail/>}/>
         <Route path="/actividad/:id/editar" element={<EditActivity />} />
+        <Route path="/actividad/nueva" element={<EditActivity isNew={true} />} />
       </Routes>
     </Router>
   );
