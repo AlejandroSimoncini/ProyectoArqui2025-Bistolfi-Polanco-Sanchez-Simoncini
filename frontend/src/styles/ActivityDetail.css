@@ -1,61 +1,162 @@
+body {
+    background-color: rgb(2, 141, 95); /* Mismo color de fondo principal que home.css */
+    font-family: system-ui, -apple-system, BlinkMacMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: rgb(1, 80, 54); /* Color de texto principal para todo el body */
+}
+
+/* Contenedor principal de los detalles de la actividad, similar a los divs de home.css */
 .activity-detail-container {
-  padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* CAMBIO AQUÍ: Alinea los elementos a la izquierda */
+    padding: 1.5rem; /* Aumentado para coincidir con el padding de otros divs */
+    background-color: wheat; /* Color de fondo principal de los recuadros en home.css */
+    border-radius: 20px; /* Bordes redondeados consistentes */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479); /* Sombra consistente */
+    width: 80%; /* Ajusta el ancho según necesites */
+    max-width: 700px; /* Ancho máximo para evitar que se vea demasiado ancho */
+    margin: 2rem auto; /* Centra el contenedor y le da margen superior/inferior similar a .gridContainer */
+    color: rgb(1, 80, 54); /* Color de texto consistente */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Fuente consistente */
+    text-align: left; /* CAMBIO AQUÍ: Asegura que el texto dentro del contenedor se alinee a la izquierda */
 }
 
+/* Títulos dentro del contenedor */
+.activity-detail-container h1 {
+    font-size: 2.2em; /* Tamaño de fuente para el título */
+    margin-bottom: 1.5rem;
+    color: rgb(1, 80, 54); /* Color de texto consistente */
+    text-align: left; /* CAMBIO AQUÍ: Asegura que el título se alinee a la izquierda */
+    width: 100%; /* Ocupa todo el ancho para que el text-align funcione */
+}
+
+/* Estilo para la imagen de la actividad (si existe) */
 .activity-detail-img {
-  width: 100%;
-  max-width: 500px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px; /* Un poco más pequeña para que no domine tanto */
+    height: auto; /* Mantiene la proporción */
+    object-fit: cover;
+    border-radius: 10px; /* Bordes redondeados */
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2); /* Sombra suave para la imagen */
+    /* Si la imagen necesita centrarse mientras el texto no, esto sería más complejo y podría requerir un div wrapper */
+    /* Por ahora, alinea a la izquierda con el resto del contenido por el align-items: flex-start; */
 }
 
+/* Estilos para la información detallada */
+.activity-detail-container p {
+    margin-bottom: 0.5rem; /* Espacio entre párrafos */
+    line-height: 1.5;
+    /* text-align: left; ya lo hereda del padre o no es necesario */
+}
+
+.activity-detail-container strong {
+    font-weight: bold;
+    color: rgb(1, 80, 54); /* Color consistente para el texto en negrita */
+}
+
+/* Estilos para el botón principal de inscripción/estado */
 .activity-detail-button {
-  padding: 10px 20px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  margin-top: 20px;
-  cursor: pointer;
+    padding: 12px 25px;
+    background-color: orange;
+    color: rgb(139, 91, 0);
+    border: none;
+    border-radius: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
+    transition: all 0.1s ease-in;
+    align-self: center; /* CAMBIO AQUÍ: Centra el botón individualmente */
+}
+
+.activity-detail-button:hover:not(:disabled) {
+    background-color: rgb(206, 134, 0);
+    scale: 1.02;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.575);
 }
 
 .activity-detail-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+    scale: 1;
 }
 
+/* Mensajes (éxito/error) */
 .activity-detail-message {
-  margin-top: 10px;
-  color: green;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: left; /* CAMBIO AQUÍ: Asegura que el mensaje de éxito se alinee a la izquierda */
+    color: rgb(1, 80, 54);
+    background-color: rgba(137, 201, 40, 0.5);
+    width: 100%; /* Asegura que ocupe todo el ancho para su alineación */
 }
 
+/* Contenedor de botones de administrador */
 .admin-buttons {
-  margin-top: 20px;
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    align-self: center; /* CAMBIO AQUÍ: Centra el contenedor de botones admin */
 }
 
 .admin-buttons button {
-  margin-right: 10px;
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.1s ease-in;
+}
+
+.admin-buttons button:hover {
+    scale: 1.02;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .edit-button {
-  background-color: #ffc107;
-  color: #000;
+    background-color: orange;
+    color: rgb(139, 91, 0);
+}
+
+.edit-button:hover {
+    background-color: rgb(206, 134, 0);
 }
 
 .delete-button {
-  background-color: #dc3545;
-  color: #fff;
+    background-color: #dc3545;
+    color: white;
 }
 
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Botón de "Volver al inicio" */
 .back-link {
-  text-decoration: none;
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  display: inline-block;
-  margin-top: 30px;
+    text-decoration: none;
+    background-color: rgb(1, 80, 54);
+    color: wheat;
+    padding: 12px 25px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 30px;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
+    transition: all 0.1s ease-in;
+    align-self: center; /* CAMBIO AQUÍ: Centra el botón individualmente */
+}
+
+.back-link:hover {
+    background-color: rgb(1, 60, 40);
+    scale: 1.02;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.575);
 }
