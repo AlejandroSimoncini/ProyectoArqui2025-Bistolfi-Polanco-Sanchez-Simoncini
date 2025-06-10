@@ -28,6 +28,13 @@ const HomePage = () => {
     };
     const handleAddActivity = () => navigate("/actividad/nueva");
 
+    const [showMyActivities, setShowMyActivities] = useState(false);
+
+const handleShowMyActivitiesClick = () => {
+  setShowMyActivities(!showMyActivities);
+};
+
+
   return (
         <div className="home-container"> {/* DIV PRINCIPAL*/}
             <div className="gridContainer"> {/* DISEÑO DEL CUADRO CON INFORMACIOIN DE LA PAGINA*/}
@@ -74,6 +81,29 @@ const HomePage = () => {
                 </button>
                 </div>
             )}
+            {!user.esAdmin && (
+  <div className="buttonContainer">
+    <button onClick={handleShowMyActivitiesClick}>
+      <strong>Mis Actividades</strong>
+    </button>
+  </div>
+)}
+{!user.esAdmin && showMyActivities && (
+    <div className="myActivitiesList">
+        <h2>Mis Actividades</h2>
+        <ul>
+            {user.actividadesInscripto && user.actividadesInscripto.length > 0 ? (
+                user.actividadesInscripto.map((actividad, index) => (
+                    <li key={index}>{actividad}</li>
+                ))
+            ) : (
+                <li>No estás inscripto a ninguna actividad</li>
+            )}
+        </ul>
+    </div>
+)}
+
+
         </div>
     
   );
