@@ -19,3 +19,12 @@ func ObtenerUsuarioPorEmail(email string) (*models.Usuario, error) {
 	}
 	return &user, nil
 }
+
+func GetActividadesPorUsuarioID(userID uint) ([]models.Actividad, error) {
+	var actividades []models.Actividad
+	err := config.DB.
+		Joins("JOIN inscripcions ON inscripcions.actividad_id = actividads.id").
+		Where("inscripcions.usuario_id = ?", userID).
+		Find(&actividades).Error
+	return actividades, err
+}

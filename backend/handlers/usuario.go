@@ -5,17 +5,24 @@ package handlers
 import (
 	"net/http"
 	"proyectoarquisoft/services"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
-// funcion para tener la actividad por usuario
+// obtener las actividades de un usuario, se usa en el perfil del usuario para mostrar sus actividades
 func GetActividadesPorUsuario(c *gin.Context) {
-	id := c.Param("id")
-	actividad, err := services.GetActividadPorID(id)
+	idStr := c.Param("id")
+	userID, err := strconv.ParseUint(idStr, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"mensaje": "ID inválido"})
+		return
+	}
+
+	actividades, err := services.GetActividadesPorUsuarioID(uint(userID))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"mensaje": "Error al obtener las actividades del usuario"})
 		return
 	}
-	c.JSON(http.StatusOK, actividad)
+	c.JSON(http.StatusOK, actividades)
 }

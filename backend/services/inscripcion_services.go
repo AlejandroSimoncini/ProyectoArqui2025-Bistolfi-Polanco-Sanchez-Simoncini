@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// InscribirUsuario inscribe a un usuario en una actividad, verificando que no esté ya inscrito y que haya cupo disponible.
 func InscribirUsuario(usuarioID uint, actividadID uint) error {
 	var inscripcion models.Inscripcion
 
@@ -24,10 +25,6 @@ func InscribirUsuario(usuarioID uint, actividadID uint) error {
 		return errors.New("actividad no encontrada")
 	}
 
-	if actividad.Estado != "activa" {
-		return errors.New("no se puede inscribir: la actividad no está activa")
-	}
-
 	//cuenta cuantos inscritos hay y compara con el cupo maximo
 	var totalInscritos int64
 	config.DB.Model(&models.Inscripcion{}).Where("actividad_id = ?", actividadID).Count(&totalInscritos)
@@ -40,32 +37,12 @@ func InscribirUsuario(usuarioID uint, actividadID uint) error {
 		UsuarioID:   usuarioID,
 		ActividadID: actividadID,
 		Fecha:       time.Now().Format("2006-01-02"),
-		Estado:      "confirmada",
 	}
 
 	return config.DB.Create(&nueva).Error
 }
 
-// sirve para cambiar el estado (pendiente, confirmada, cancelada)
-func EditarInscripcion(id uint, nueva models.Inscripcion, usuarioID uint) error {
-	var inscripcion models.Inscripcion
-
-	// Buscar la inscripción por id
-	if err := config.DB.First(&inscripcion, id).Error; err != nil {
-		return errors.New("inscripción no encontrada")
-	}
-
-	// Verificar que la inscripción le pertenezca al usuario
-	if inscripcion.UsuarioID != usuarioID {
-		return errors.New("no tenés permiso para modificar esta inscripción")
-	}
-
-	// Solo permitimos editar el estado
-	inscripcion.Estado = nueva.Estado
-
-	return config.DB.Save(&inscripcion).Error
-}
-
+// EliminarInscripcion elimina una inscripción de un usuario a una actividad, verificando que la inscripción exista y que le pertenezca al usuario.
 func EliminarInscripcion(id uint, usuarioID uint) error {
 	var inscripcion models.Inscripcion
 

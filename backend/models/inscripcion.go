@@ -12,5 +12,4 @@ type Inscripcion struct {
 	UsuarioID   uint   `json:"usuario_id"`   //fk que apunta al usuario que se inscribe
 	ActividadID uint   `json:"actividad_id"` //fk que apunta a la actividad seleccionada
 	Fecha       string `json:"fecha"`
-	Estado      string `json:"estado"` // Puede ser "pendiente", "confirmada", "cancelada"
 }
