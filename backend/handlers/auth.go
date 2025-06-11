@@ -37,14 +37,14 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"mensajee": "Usuario registrado exitosamente"})
+	c.JSON(http.StatusCreated, gin.H{"mensaje": "Usuario registrado exitosamente"})
 }
 
 // Login de usuario (recibe datos, busca al usuario en BD, verifica la contra hasheada y si es correccto genera un JWT )
 func Login(c *gin.Context) {
 	var datos struct {
 		Email    string `json:"email"`
-		Password string `json:"password"`
+		Password string `json:"contrasenia"`
 	}
 	if err := c.ShouldBindJSON(&datos); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"mensaje": "Datos inválidos"})

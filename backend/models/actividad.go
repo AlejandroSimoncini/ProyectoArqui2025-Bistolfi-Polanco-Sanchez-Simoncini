@@ -1,12 +1,12 @@
 // estructura y logica de la actividad
 package models
 
-import (
-	"gorm.io/gorm"
-)
+func (Actividad) TableName() string {
+	return "actividades"
+}
 
 type Actividad struct {
-	gorm.Model
+	ID            uint          `gorm:"primaryKey" json:"id"`
 	Nombre        string        `json:"nombre"`
 	Descripcion   string        `json:"descripcion"`
 	Fecha         string        `json:"fecha"`

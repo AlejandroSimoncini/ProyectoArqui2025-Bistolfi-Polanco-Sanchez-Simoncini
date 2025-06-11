@@ -4,7 +4,7 @@ services:
     container_name: mysql_db
     restart: always
     ports:
-      - "3307:3306"  # Puerto externo 3307 → interno 3306
+      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=proyectoarquisoft

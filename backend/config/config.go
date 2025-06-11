@@ -17,7 +17,8 @@ var DB *gorm.DB // Variable global que representa la conexion a la base de datos
 
 func InitDB() {
 	// data source name: contiene usuario, contraseña, host y nombre de base (datos de conexion a mysql)
-	dsn := "root:root@tcp(mysql:3307)/proyectoarquisoft?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:root@tcp(mysql:3306)/proyectoarquisoft?charset=utf8mb4&parseTime=True&loc=Local"
+
 	//usuario root, host:localhost:3306,contraseña root, bd: proyectoarquisoft.
 	var err error
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{}) // se conecta usando gorm
