@@ -1,0 +1,54 @@
+{
+  "activities": [
+    {
+      "id": 1,
+      "title": "Spinning",
+      "day": "Lunes",
+      "time": "18:00",
+      "professor": "Laura",
+      "category": "Cardio",
+      "description": "Clase intensa de cardio sobre bicicleta fija.",
+      "imagen": ""
+    },
+    {
+      "id": 2,
+      "title": "Funcional",
+      "day": "Martes",
+      "time": "19:00",
+      "professor": "Carlos",
+      "category": "Fuerza",
+      "description": "Entrenamiento funcional de cuerpo completo.",
+      "imagen": ""
+    },
+    {
+      "id": 3,
+      "title": "Yoga",
+      "day": "Miércoles",
+      "time": "08:00",
+      "professor": "María",
+      "category": "Flexibilidad",
+      "description": "Clase para mejorar la movilidad y reducir el estrés.",
+      "imagen": ""
+    },
+    {
+      "id": 4,
+      "title": "Zumba",
+      "day": "Jueves",
+      "time": "17:00",
+      "professor": "Laura",
+      "category": "Cardio",
+      "description": "Entrenamiento aeróbico con ritmos latinos.",
+      "imagen": ""
+    },
+    {
+      "id": 5,
+      "title": "HIIT",
+      "day": "Viernes",
+      "time": "19:30",
+      "professor": "Carlos",
+      "category": "Alta Intensidad",
+      "description": "Intervalos de alta intensidad para quemar grasa.",
+      "imagen": ""
+    }
+  ]
+}
