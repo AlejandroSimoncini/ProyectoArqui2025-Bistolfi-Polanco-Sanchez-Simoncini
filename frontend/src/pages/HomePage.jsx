@@ -104,28 +104,28 @@ const HomePage = () => {
 
       {/* LISTADO DE ACTIVIDADES INSCRIPTAS */}
       {!user.esAdmin && showMyActivities && (
-  <div className="myActivitiesList">
-    <h2>Mis Actividades</h2>
-    {(() => {
-      const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
-      const allActivities = JSON.parse(localStorage.getItem("activities")) || require("../mocks/activities.json").activities;
-      const misIds = inscripciones[user.id] || [];
-      const misActividades = allActivities.filter(a => misIds.includes(a.id));
+        <div className="myActivitiesList">
+          <h2>Mis Actividades</h2>
+          {(() => {
+            const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
+            const allActivities = JSON.parse(localStorage.getItem("activities")) || require("../mocks/activities.json").activities;
+            const misIds = inscripciones[user.id] || [];
+            const misActividades = allActivities.filter(a => misIds.includes(a.id));
 
-      if (misActividades.length === 0) {
-        return <p>No estás inscripto a ninguna actividad.</p>;
-      }
+            if (misActividades.length === 0) {
+              return <p>No estás inscripto a ninguna actividad.</p>;
+            }
 
-      return (
-        <div className="activityList">
-          {misActividades.map((activity) => (
-            <ActivityCard key={activity.id} activity={activity} />
-          ))}
+            return (
+              <div className="activityList">
+                {misActividades.map((activity) => (
+                  <ActivityCard key={activity.id} activity={activity} />
+                ))}
+              </div>
+            );
+          })()}
         </div>
-      );
-    })()}
-  </div>
-)}
+      )}
 
     </div>
   );
