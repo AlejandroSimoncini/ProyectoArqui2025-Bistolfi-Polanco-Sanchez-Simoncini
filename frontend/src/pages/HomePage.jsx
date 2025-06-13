@@ -15,6 +15,7 @@ const HomePage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
 
+  
   const handleShowUsersClick = () => {
     setShowUsersList(!showUsersList);
   };
