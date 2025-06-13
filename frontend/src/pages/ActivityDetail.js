@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import activities from '../mocks/activities.json';
-import { useState } from 'react';
-import '../styles/ActivityDetail.css'; // ← nuevo import
+import { useState, useEffect } from 'react';
+import '../styles/ActivityDetail.css';
 
 function ActivityDetail() {
   const { id } = useParams();
@@ -10,12 +10,36 @@ function ActivityDetail() {
   const [mensaje, setMensaje] = useState("");
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const manejarInscripcion = () => {
-    if (inscripto) {
-      setMensaje("Ya estás inscripto en esta actividad.");
-    } else {
+  useEffect(() => {
+    const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
+    const userId = user?.id;
+    const actividadesUsuario = inscripciones[userId] || [];
+    if (actividadesUsuario.includes(Number(id))) {
       setInscripto(true);
-      setMensaje("¡Inscripción realizada con éxito! ✅");
+    }
+  }, [id, user?.id]);
+
+  const manejarInscripcion = () => {
+    const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
+    const userId = user?.id;
+
+    if (!userId) {
+      setMensaje("⚠️ Usuario no identificado.");
+      return;
+    }
+
+    const actividadesUsuario = inscripciones[userId] || [];
+
+    if (actividadesUsuario.includes(Number(id))) {
+      setMensaje("Ya estás inscripto en esta actividad.");
+      setInscripto(true);
+    } else {
+      const nuevasActividades = [...actividadesUsuario, Number(id)];
+      inscripciones[userId] = nuevasActividades;
+      localStorage.setItem("inscripciones", JSON.stringify(inscripciones));
+
+      setInscripto(true);
+      setMensaje("✅ ¡Inscripción realizada con éxito!");
     }
   };
 
@@ -65,7 +89,7 @@ function ActivityDetail() {
       {user?.esAdmin && (
         <div className="admin-buttons">
           <Link to={`/actividad/${activity.id}/editar`}>
-          <button className="edit-button">Editar</button>
+            <button className="edit-button">Editar</button>
           </Link>
 
           <button
