@@ -63,7 +63,7 @@ function ActivityDetail() {
     const updatedActivities = storedActivities.filter(a => a.id !== Number(id));
     localStorage.setItem("activities", JSON.stringify(updatedActivities));
 
-    // También eliminamos inscripciones relacionadas
+    // eliminamos inscripciones relacionadas
     const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
     for (const userId in inscripciones) {
       inscripciones[userId] = inscripciones[userId].filter(actId => actId !== Number(id));
