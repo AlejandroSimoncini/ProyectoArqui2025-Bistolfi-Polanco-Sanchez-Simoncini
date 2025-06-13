@@ -1,15 +1,15 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: mysql_db
+    container_name: mysql_db  #contenedor que corre la base de datos mysql. (usuarios,act,etc) atiende en el puerto 3306 o 3307 desde afuera 
     restart: always
     ports:
-      - "3307:3306"  # Puerto externo 3307 → interno 3306
+      - "3307:3306" #3307 puerto externo de mi pc : 3306 puerto interno mysql . me conecto con localhost:3307
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=proyectoarquisoft
     volumes:
-      - proyectoarquisoft_mysql_data:/var/lib/mysql
+      - proyectoarquisoft_mysql_data:/var/lib/mysql #donde guarda la base de datos docker 
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
@@ -18,12 +18,12 @@ services:
 
   backend:
     build: .
-    container_name: go_backend
+    container_name: go_backend   #contenedor donde corre el backend hecho en go (atiende las peticiones), se conecta al contenedor de mysql para guardar o leer datos. atiende en el puerto 80 (8080 desde aduera, para postman)
     depends_on:
       mysql:
         condition: service_healthy
     ports:
-      - "8080:80"
+      - "8080:80"  #puerto de mi pc : puerto contenedor . el servidor escucha en el puerto 80 dentro del contenedor. desde mi compu accedo como localhost:8080
     restart: on-failure
 
 volumes:

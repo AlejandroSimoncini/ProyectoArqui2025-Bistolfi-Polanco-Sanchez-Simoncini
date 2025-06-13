@@ -36,7 +36,6 @@ func main() {
 	{
 		socio.POST("/inscribir/:usuario_id/:actividad_id", handlers.InscribirUsuario)
 		socio.GET("/usuarios/:id/actividades", handlers.GetActividadesPorUsuario)
-		socio.PUT("/inscripcion/:id", handlers.EditarInscripcion)
 		socio.DELETE("/inscripcion/:id", handlers.EliminarInscripcion)
 	}
 
