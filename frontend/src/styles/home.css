@@ -1,14 +1,12 @@
-body{
+body {
     background-color: rgb(2, 141, 95);
-
 }
-
 
 .home-container {
     background-color: transparent;
 }
 
-.gridContainer{
+.gridContainer {
     display: flex;
     background-color: rgb(1, 80, 54);
     margin-top: 2rem;
@@ -16,144 +14,145 @@ body{
     padding: 1%;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
 }
-  
 
-  .parent {
+.parent {
     background-color: transparent;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
-
     justify-content: center;
     border-radius: 20px;
-    
-    }
-    
-    .div1 { 
-        grid-area: 1 / 1 / 4 / 4;
-        display: flex;
-        background-color: wheat;
-        border-radius: 20px;
-        margin: 0.5rem;
-        padding: 0.5rem;
-        color: rgb(1, 80, 54);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
-    }
-    .activityCont{
-        background-color: transparent;
-        display: flex;
-    }
+}
 
-    .left, .right {
-        flex: 0.4;
-        margin: 2%;
-      }
+.div1 {
+    grid-area: 1 / 1 / 4 / 4;
+    display: flex;
+    background-color: wheat;
+    border-radius: 20px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    color: rgb(1, 80, 54);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
+}
 
-    .activityImg{
-        width: 15rem;
-        height: 15rem;
-        object-fit: cover;
-        border-radius: 10px;
-    }   
-    .activityButton{
-        color: green;
-        background-color: greenyellow;
-        border: 0px;
-        border-radius: 20px;
-        padding: 10%;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.432);
-        margin-left: 2%;
-    }
-    .activityButton:hover{
-        transition: all ease-in 0.1s;
-        background-color: rgb(137, 201, 40);
-        scale: 1.04;
-    }
+.activityCont {
+    background-color: transparent;
+    display: flex;
+}
 
+.left,
+.right {
+    flex: 0.4;
+    margin: 2%;
+}
 
+.activityImg {
+    width: 15rem;
+    height: 15rem;
+    object-fit: cover;
+    border-radius: 10px;
+}
 
-    .div2 {
-         grid-area: 4 / 1 / 6 / 4;
-         background-color: wheat;
-         border-radius: 20px;
-         margin: 0.5rem;
-         padding: 0.5rem;
-         color: rgb(1, 80, 54);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
-    }
-    .userData{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-    }
-    .userDataLeft{
-        flex: 1;
-        display: flex;
-        padding: 1%;
-    }
-    .userDataRight{
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 1%;
-    }
+.activityButton {
+    color: green;
+    background-color: greenyellow;
+    border: 0px;
+    border-radius: 20px;
+    padding: 10%;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.432);
+    margin-left: 2%;
+}
 
-    .profilePhoto{  
-        height: 5rem;
-        width: 5rem;
-        object-fit: cover;
-        border-radius: 50%;
-    }
-    .admin-badge {
-        background-color: orange;
-        color:  rgb(139, 91, 0);
-        font-weight: bold;
-        padding: 4px;
-        margin: 5px;
-        border-radius: 5px;
-        font-size: 0.8rem;
-    }
+.activityButton:hover {
+    transition: all ease-in 0.1s;
+    background-color: rgb(137, 201, 40);
+    scale: 1.04;
+}
 
+.div2 {
+    grid-area: 4 / 1 / 6 / 4;
+    background-color: wheat;
+    border-radius: 20px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    color: rgb(1, 80, 54);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
+}
 
+.userData {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
 
-    .div3 { 
-        grid-area: 1 / 4 / 6 / 6;
-        background-color: wheat;
-        border-radius: 20px;
-        margin: 0.5rem;
-        padding: 0.5rem;
-        color: rgb(1, 80, 54);
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    }
-    .search{
-        padding: 8px;
-        width: 95%;
-        margin-bottom: 20px;
-        border-radius: 20px;
-        border: 0px;
-    }
-    .allActivityInfo{
-        background-color:  transparent;
-        max-height: 500px;
-        overflow-y: auto;
-    }
+.userDataLeft {
+    flex: 1;
+    display: flex;
+    padding: 1%;
+}
 
+.userDataRight {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1%;
+}
 
+.profilePhoto {
+    height: 5rem;
+    width: 5rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
 
-.buttonContainer{
+.admin-badge {
+    background-color: orange;
+    color: rgb(139, 91, 0);
+    font-weight: bold;
+    padding: 4px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+}
+
+.div3 {
+    grid-area: 1 / 4 / 6 / 6;
+    background-color: wheat;
+    border-radius: 20px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    color: rgb(1, 80, 54);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.search {
+    padding: 8px;
+    width: 95%;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    border: 0px;
+}
+
+.allActivityInfo {
+    background-color: transparent;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.buttonContainer {
     display: flex;
     margin-top: 10px;
     gap: 10px;
 }
 
-.buttonContainer button{
+.buttonContainer button {
     background-color: orange;
     color: rgb(139, 91, 0);
     width: 100%;
@@ -166,29 +165,117 @@ body{
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
 }
 
-.buttonContainer button:hover{
+.buttonContainer button:hover {
     transition: all, ease, 0.1s;
     scale: 1.02;
     background-color: rgb(206, 134, 0);
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.575);
 }
 
-
-
-
-.allUsersList{
+.allUsersList {
     background-color: wheat;
     padding: 1%;
     width: auto;
     max-height: 500px;
     border-radius: 20px;
     margin-right: 0.5rem;
-
     overflow-y: auto;
 }
-.usersContainer{
+
+.usersContainer {
     background-color: transparent;
     max-height: 500px;
     width: 100%;
+}
 
+.logout-button-container {
+    position: absolute;
+    /* O 'fixed' si quieres que siempre esté visible al hacer scroll */
+    top: 20px;
+    /* Distancia desde la parte superior */
+    right: 20px;
+    /* Distancia desde la derecha */
+    z-index: 1000;
+    /* Asegura que esté por encima de otros elementos */
+}
+
+.logout-button {
+    background-color: #dc3545;
+    /* Un rojo para indicar "salir" o "peligro" */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    cursor: pointer;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
+    transition: all 0.1s ease-in;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+    /* Un rojo más oscuro al pasar el mouse */
+    scale: 1.02;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.575);
+}
+
+
+/* --- Estos son los estilos que agregamos para "Mis Actividades" --- */
+.myActivitiesList {
+    background-color: wheat;
+    /* Color de fondo similar a otras secciones */
+    border-radius: 20px;
+    /* Bordes redondeados */
+    margin-top: 1rem;
+    /* Espacio superior para separarlo del botón */
+    padding: 1.5rem;
+    /* Relleno interno para el contenido */
+    color: rgb(1, 80, 54);
+    /* Color del texto */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /* Misma fuente */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
+    /* Sombra para el efecto de profundidad */
+    max-height: 300px;
+    /* Altura máxima para permitir el scroll si hay muchas actividades */
+    overflow-y: auto;
+    /* Habilita el scroll vertical si el contenido excede la altura máxima */
+}
+
+.myActivitiesList h2 {
+    text-align: center;
+    /* Centra el título */
+    margin-bottom: 1rem;
+    /* Espacio debajo del título */
+    color: rgb(1, 80, 54);
+    /* Color del título */
+}
+
+.myActivitiesList ul {
+    list-style: none;
+    /* Quita los puntos de la lista */
+    padding: 0;
+    /* Elimina el padding predeterminado de la lista */
+}
+
+.myActivitiesList li {
+    background-color: rgba(245, 222, 179, 0.7);
+    /* Un color de fondo ligeramente diferente para cada item */
+    margin-bottom: 0.5rem;
+    /* Espacio entre cada actividad */
+    padding: 0.8rem 1rem;
+    /* Relleno para cada item de la lista */
+    border-radius: 10px;
+    /* Bordes redondeados para cada item */
+    border: 1px solid rgba(1, 80, 54, 0.2);
+    /* Borde sutil */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Alinea el contenido y el posible botón a los extremos */
+}
+
+.myActivitiesList li:last-child {
+    margin-bottom: 0;
+    /* No hay margen inferior para el último item */
 }

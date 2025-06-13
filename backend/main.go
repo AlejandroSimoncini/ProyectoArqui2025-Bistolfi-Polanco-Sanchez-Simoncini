@@ -7,12 +7,14 @@ import (
 	"proyectoarquisoft/handlers"
 	"proyectoarquisoft/middlewares"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	config.InitDB()    // Inicializar la conexión a la base de datos (primero al iniciar programa)
 	r := gin.Default() // Crear una nueva instancia del framework web gin
+	r.Use(cors.Default())
 
 	//rutas publicas (disponibles sin autenticación)
 	// Rutas públicas
