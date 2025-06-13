@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import '../styles/home.css';
 import '../pages/ActivityDetail'
 import ActivityCard from '../components/ActivityCard'
-//import ActivityData from '../mocks/activities.json'
 import { Link } from 'react-router-dom';
 
 const ActivitiesImages = ({ selectedActivity }) => {
@@ -21,8 +20,6 @@ const ActivitiesImages = ({ selectedActivity }) => {
     </div>
   );
 };
-
-
 
 const ActivityInfo = ({ selectedActivity }) => {
   return (
@@ -45,35 +42,55 @@ const ActivityInfo = ({ selectedActivity }) => {
   );
 };
 
-
-
 const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
-  //const activities_1 = ActivityData.activities;
-  //const [activities] = useState(activities_1);
   const storedActivities = JSON.parse(localStorage.getItem("activities")) || require('../mocks/activities.json').activities;
-  const [activities, setActivities] = useState(storedActivities);
-
   const [search, setSearch] = useState("");
+  const [filteredActivities, setFilteredActivities] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
 
-  const filteredActivities = activities.filter((activity) =>
-    activity.title.toLowerCase().includes(search.toLowerCase()) ||
-    activity.category.toLowerCase().includes(search.toLowerCase()) ||
-    activity.day.toLowerCase().includes(search.toLowerCase())
-  );
+  const handleSearch = () => {
+    const lowerSearch = search.toLowerCase().trim();
+
+    // No buscamos si no se escribió nada
+    if (lowerSearch === "") {
+      setFilteredActivities([]);
+      setHasSearched(false);
+      return;
+    }
+
+    const results = storedActivities.filter((activity) =>
+      activity.title.toLowerCase().includes(lowerSearch) ||
+      activity.category.toLowerCase().includes(lowerSearch) ||
+      activity.day.toLowerCase().includes(lowerSearch) ||
+      activity.time.toLowerCase().includes(lowerSearch) ||
+      activity.professor.toLowerCase().includes(lowerSearch)
+    );
+
+    setFilteredActivities(results);
+    setHasSearched(true);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   return (
     <div>
       <input 
         type="text" 
-        placeholder="Buscar por título, categoría o día"
+        placeholder="Buscar por título, categoría, día, hora o profesor"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        onKeyDown={handleKeyPress}
         className="search"
       />
-      {filteredActivities.length === 0 ? (
+
+      {hasSearched && filteredActivities.length === 0 ? (
         <p>No se encontraron actividades.</p>
       ) : (
-        filteredActivities.map((activity) => (
+        hasSearched && filteredActivities.map((activity) => (
           <ActivityCard
             key={activity.id}
             activity={activity}
@@ -85,4 +102,5 @@ const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
   );
 };
 
-export { ActivitiesImages, ActivityInfo, ActivitySearch};
+
+export { ActivitiesImages, ActivityInfo, ActivitySearch };
