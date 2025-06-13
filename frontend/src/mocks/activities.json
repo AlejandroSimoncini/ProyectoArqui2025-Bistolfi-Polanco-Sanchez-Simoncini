@@ -7,6 +7,8 @@
       "time": "18:00",
       "professor": "Laura",
       "category": "Cardio",
+      "duration": "45 minutos",
+      "capacity": 20,
       "description": "Clase intensa de cardio sobre bicicleta fija.",
       "imagen": ""
     },
@@ -17,6 +19,8 @@
       "time": "19:00",
       "professor": "Carlos",
       "category": "Fuerza",
+      "duration": "45 minutos",
+      "capacity": 15,
       "description": "Entrenamiento funcional de cuerpo completo.",
       "imagen": ""
     },
@@ -27,6 +31,8 @@
       "time": "08:00",
       "professor": "María",
       "category": "Flexibilidad",
+      "duration": "45 minutos",
+      "capacity": 10,
       "description": "Clase para mejorar la movilidad y reducir el estrés.",
       "imagen": ""
     },
@@ -37,6 +43,8 @@
       "time": "17:00",
       "professor": "Laura",
       "category": "Cardio",
+      "duration": "45 minutos",
+      "capacity": 10,
       "description": "Entrenamiento aeróbico con ritmos latinos.",
       "imagen": ""
     },
@@ -47,6 +55,8 @@
       "time": "19:30",
       "professor": "Carlos",
       "category": "Alta Intensidad",
+      "duration": "45 minutos",
+      "capacity": 10,
       "description": "Intervalos de alta intensidad para quemar grasa.",
       "imagen": ""
     }
