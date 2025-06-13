@@ -1,17 +1,31 @@
-//import { useParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import activities from '../mocks/activities.json';
 import { useState, useEffect } from 'react';
 import '../styles/ActivityDetail.css';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-
 
 function ActivityDetail() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const activity = activities.activities.find(a => a.id === Number(id));
   const [inscripto, setInscripto] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const user = JSON.parse(localStorage.getItem("user"));
+
+  // 🔄 Fetch actividad desde el backend
+  useEffect(() => {
+    const fetchActivity = async () => {
+      try {
+        const response = await fetch(http://localhost/actividades/${id};
+        if (!response.ok) throw new Error("Actividad no encontrada");
+        const data = await response.json();
+        setActivity(data);
+      } catch (error) {
+        console.error("Error al cargar la actividad:", error);
+        setActivity(null); // Si falla, mostramos mensaje abajo
+      }
+    };
+
+    fetchActivity();
+  }, [id]);
 
   useEffect(() => {
     const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
@@ -27,7 +41,7 @@ function ActivityDetail() {
     const userId = user?.id;
 
     if (!userId) {
-      setMensaje("⚠️ Usuario no identificado.");
+      setMensaje("⚠ Usuario no identificado.");
       return;
     }
 
@@ -46,34 +60,14 @@ function ActivityDetail() {
     }
   };
 
-  //creo que esta parte no hace nada, la dejo ante la duda...
-  /*if (!activity) {
+  if (!activity) {
     return (
       <div className="activity-detail-container">
         <h1>Actividad no encontrada 😢</h1>
+        <Link to="/home" className="back-link">← Volver al inicio</Link>
       </div>
     );
-  }*/
-
-  const handleDelete = () => {
-    const confirmDelete = window.confirm("¿Estás seguro de que querés eliminar esta actividad?");
-    if (!confirmDelete) return;
-
-    const storedActivities = JSON.parse(localStorage.getItem("activities")) || [];
-    const updatedActivities = storedActivities.filter(a => a.id !== Number(id));
-    localStorage.setItem("activities", JSON.stringify(updatedActivities));
-
-    // eliminamos inscripciones relacionadas
-    const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
-    for (const userId in inscripciones) {
-      inscripciones[userId] = inscripciones[userId].filter(actId => actId !== Number(id));
-    }
-    localStorage.setItem("inscripciones", JSON.stringify(inscripciones));
-
-    alert("✅ Actividad eliminada con éxito");
-    navigate("/home");
-  };
-
+  }
 
   return (
     <div className="activity-detail-container">
@@ -112,17 +106,16 @@ function ActivityDetail() {
 
       {user?.esAdmin && (
         <div className="admin-buttons">
-          <Link to={`/actividad/${activity.id}/editar`}>
+          <Link to={/actividad/${activity.id}/editar}>
             <button className="edit-button">Editar</button>
           </Link>
 
           <button
             className="delete-button"
-            onClick={handleDelete}
+            onClick={() => alert("Funcionalidad de eliminación aún no implementada")}
           >
             Eliminar
           </button>
-
         </div>
       )}
 
