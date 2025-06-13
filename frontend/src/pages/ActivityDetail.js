@@ -1,10 +1,13 @@
-import { useParams, Link } from 'react-router-dom';
+//import { useParams, Link } from 'react-router-dom';
 import activities from '../mocks/activities.json';
 import { useState, useEffect } from 'react';
 import '../styles/ActivityDetail.css';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+
 
 function ActivityDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const activity = activities.activities.find(a => a.id === Number(id));
   const [inscripto, setInscripto] = useState(false);
   const [mensaje, setMensaje] = useState("");
@@ -51,6 +54,26 @@ function ActivityDetail() {
     );
   }
 
+  const handleDelete = () => {
+    const confirmDelete = window.confirm("¿Estás seguro de que querés eliminar esta actividad?");
+    if (!confirmDelete) return;
+
+    const storedActivities = JSON.parse(localStorage.getItem("activities")) || [];
+    const updatedActivities = storedActivities.filter(a => a.id !== Number(id));
+    localStorage.setItem("activities", JSON.stringify(updatedActivities));
+
+    // También eliminamos inscripciones relacionadas
+    const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
+    for (const userId in inscripciones) {
+      inscripciones[userId] = inscripciones[userId].filter(actId => actId !== Number(id));
+    }
+    localStorage.setItem("inscripciones", JSON.stringify(inscripciones));
+
+    alert("✅ Actividad eliminada con éxito");
+    navigate("/home");
+  };
+
+
   return (
     <div className="activity-detail-container">
       <h1>{activity.title}</h1>
@@ -94,10 +117,11 @@ function ActivityDetail() {
 
           <button
             className="delete-button"
-            onClick={() => alert("Funcionalidad de eliminación aún no implementada")}
+            onClick={handleDelete}
           >
             Eliminar
           </button>
+
         </div>
       )}
 
