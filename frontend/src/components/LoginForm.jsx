@@ -1,37 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
-import userInfo from '../mocks/users.json'
-
-
 
 const Login = () => {
-  useEffect(() =>{
-  localStorage.clear();
-  });
-  const [user, setUser] = useState('');
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
+  const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const users = userInfo.users;
+    try {
+      const response = await fetch('http://localhost/login', { // Ajusta URL según tu backend
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          contrasenia: pass
+        }),
+      });
 
-    const foundUser = users.find(u => u.name === user && u.password === pass);
+      if (!response.ok) {
+        const data = await response.json();
+        alert(data.mensaje || 'Credenciales inválidas');
+        return;
+      }
 
-    if (foundUser) {
-      const userDataToStore = {
-        id: foundUser.id,
-        name: foundUser.name,
-        image: foundUser.image,
-        esAdmin: foundUser.esAdmin
-      };
-
-      localStorage.setItem("user", JSON.stringify(userDataToStore));
+      const data = await response.json();
+      localStorage.setItem('token', data.token); // Guardamos el token JWT
       navigate('/home');
-    } else {
-      alert('Credenciales inválidas');
+    } catch (error) {
+      alert('Error de conexión con el servidor');
     }
   };
 
@@ -40,16 +43,18 @@ const Login = () => {
       <h1>Iniciar Sesión</h1>
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          placeholder="Usuario"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <input
           type="password"
           placeholder="Contraseña"
           value={pass}
           onChange={(e) => setPass(e.target.value)}
+          required
         />
         <button type="submit">Entrar</button>
       </form>
