@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import '../styles/home.css';
 import '../pages/ActivityDetail'
 import ActivityCard from '../components/ActivityCard'
-import ActivityData from '../mocks/activities.json'
-import { Link } from 'react-router-dom'; // Agregá esto arriba del archivo
+//import ActivityData from '../mocks/activities.json'
+import { Link } from 'react-router-dom';
 
 const ActivitiesImages = ({ selectedActivity }) => {
   const defaultProfileImage = "https://i.pinimg.com/474x/bd/f4/d3/bdf4d3fe1f9a17136319df951fe9b3e0.jpg";
@@ -48,8 +48,11 @@ const ActivityInfo = ({ selectedActivity }) => {
 
 
 const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
-  const activities_1 = ActivityData.activities;
-  const [activities] = useState(activities_1);
+  //const activities_1 = ActivityData.activities;
+  //const [activities] = useState(activities_1);
+  const storedActivities = JSON.parse(localStorage.getItem("activities")) || require('../mocks/activities.json').activities;
+  const [activities, setActivities] = useState(storedActivities);
+
   const [search, setSearch] = useState("");
 
   const filteredActivities = activities.filter((activity) =>
