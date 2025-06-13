@@ -46,13 +46,14 @@ function ActivityDetail() {
     }
   };
 
-  if (!activity) {
+  //creo que esta parte no hace nada, la dejo ante la duda...
+  /*if (!activity) {
     return (
       <div className="activity-detail-container">
         <h1>Actividad no encontrada 😢</h1>
       </div>
     );
-  }
+  }*/
 
   const handleDelete = () => {
     const confirmDelete = window.confirm("¿Estás seguro de que querés eliminar esta actividad?");
