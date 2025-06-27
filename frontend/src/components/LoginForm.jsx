@@ -1,37 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
-import userInfo from '../mocks/users.json'
-
-
 
 const Login = () => {
-  useEffect(() =>{
-  localStorage.clear();
-  });
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const users = userInfo.users;
+    try {
+      const res = await fetch('http://localhost/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user, contrasenia: pass })
+      });
 
-    const foundUser = users.find(u => u.name === user && u.password === pass);
+      if (!res.ok) {
+        alert('Credenciales inválidas');
+        return;
+      }
 
-    if (foundUser) {
-      const userDataToStore = {
-        id: foundUser.id,
-        name: foundUser.name,
-        image: foundUser.image,
-        esAdmin: foundUser.esAdmin
-      };
+      const data = await res.json();
 
-      localStorage.setItem("user", JSON.stringify(userDataToStore));
+      // Guardar token y datos de usuario en localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify({
+        id: data.id,
+        name: data.name,
+        image: data.image,
+        esAdmin: data.esAdmin
+      }));
+
       navigate('/home');
-    } else {
-      alert('Credenciales inválidas');
+    } catch (error) {
+      alert('Error de conexión con el servidor');
     }
   };
 
