@@ -1,83 +1,116 @@
-//import { useParams, Link } from 'react-router-dom';
-import activities from '../mocks/activities.json';
 import { useState, useEffect } from 'react';
 import '../styles/ActivityDetail.css';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 
-
 function ActivityDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const activity = activities.activities.find(a => a.id === Number(id));
+  const [activity, setActivity] = useState(null);
   const [inscripto, setInscripto] = useState(false);
   const [mensaje, setMensaje] = useState("");
   const user = JSON.parse(localStorage.getItem("user"));
 
+  // Traer la actividad desde el backend
   useEffect(() => {
-    const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
-    const userId = user?.id;
-    const actividadesUsuario = inscripciones[userId] || [];
-    if (actividadesUsuario.includes(Number(id))) {
-      setInscripto(true);
+    fetch(`http://localhost/actividades/${id}`)
+      .then(res => res.json())
+      .then(data => setActivity(data))
+      .catch(() => setActivity(null));
+  }, [id]);
+
+  // Verificar si el usuario ya está inscripto
+  useEffect(() => {
+    if (!user || !user.id) return;
+    // Asegurarse que user.id es número
+    const userIdNum = Number(user.id);
+    if (isNaN(userIdNum)) {
+      setMensaje("Usuario inválido en sesión. Cerrá sesión y volvé a ingresar.");
+      return;
     }
-  }, [id, user?.id]);
+    fetch(`http://localhost/socio/actividades/${userIdNum}`, {
+      headers: {
+        'Authorization': 'Token ' + localStorage.getItem('token')
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.some(a => a.id === Number(id))) {
+          setInscripto(true);
+        }
+      });
+  }, [id, user]);
 
-  const manejarInscripcion = () => {
-    const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
-    const userId = user?.id;
-
-    if (!userId) {
+  // Inscripción usando el backend
+  const manejarInscripcion = async () => {
+    if (!user || !user.id) {
       setMensaje("⚠️ Usuario no identificado.");
       return;
     }
-
-    const actividadesUsuario = inscripciones[userId] || [];
-
-    if (actividadesUsuario.includes(Number(id))) {
-      setMensaje("Ya estás inscripto en esta actividad.");
-      setInscripto(true);
-    } else {
-      const nuevasActividades = [...actividadesUsuario, Number(id)];
-      inscripciones[userId] = nuevasActividades;
-      localStorage.setItem("inscripciones", JSON.stringify(inscripciones));
-
+    const userIdNum = Number(user.id);
+    if (isNaN(userIdNum)) {
+      setMensaje("Usuario inválido en sesión. Cerrá sesión y volvé a ingresar.");
+      return;
+    }
+    try {
+      const res = await fetch(`http://localhost/socio/inscribir/${userIdNum}/${id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Token ' + localStorage.getItem('token')
+        }
+      });
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        setMensaje("Respuesta inesperada del servidor.");
+        return;
+      }
+      if (!res.ok) {
+        setMensaje(data.mensaje || "No se pudo inscribir. Verificá el cupo o tu sesión.");
+        return;
+      }
       setInscripto(true);
       setMensaje("✅ ¡Inscripción realizada con éxito!");
+    } catch {
+      setMensaje("Error de conexión con el servidor.");
     }
   };
 
-  //creo que esta parte no hace nada, la dejo ante la duda...
-  /*if (!activity) {
+
+  // Eliminar actividad usando el backend
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm("¿Estás seguro de que querés eliminar esta actividad?");
+    if (!confirmDelete) return;
+    try {
+      const res = await fetch(`http://localhost/admin/actividad/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Token ' + localStorage.getItem('token')
+        }
+      });
+      if (!res.ok) {
+        alert("No se pudo eliminar la actividad.");
+        return;
+      }
+      alert("✅ Actividad eliminada con éxito");
+      navigate("/home");
+    } catch {
+      alert("Error de conexión con el servidor.");
+    }
+  };
+
+  if (!activity) {
     return (
       <div className="activity-detail-container">
         <h1>Actividad no encontrada 😢</h1>
+        <Link to="/home" className="back-link">← Volver al inicio</Link>
       </div>
     );
-  }*/
-
-  const handleDelete = () => {
-    const confirmDelete = window.confirm("¿Estás seguro de que querés eliminar esta actividad?");
-    if (!confirmDelete) return;
-
-    const storedActivities = JSON.parse(localStorage.getItem("activities")) || [];
-    const updatedActivities = storedActivities.filter(a => a.id !== Number(id));
-    localStorage.setItem("activities", JSON.stringify(updatedActivities));
-
-    // eliminamos inscripciones relacionadas
-    const inscripciones = JSON.parse(localStorage.getItem("inscripciones")) || {};
-    for (const userId in inscripciones) {
-      inscripciones[userId] = inscripciones[userId].filter(actId => actId !== Number(id));
-    }
-    localStorage.setItem("inscripciones", JSON.stringify(inscripciones));
-
-    alert("✅ Actividad eliminada con éxito");
-    navigate("/home");
-  };
-
+  }
 
   return (
     <div className="activity-detail-container">
-      <h1>{activity.title}</h1>
+      <h1>{activity.nombre}</h1>
 
       {activity.imagen && (
         <img
@@ -87,13 +120,12 @@ function ActivityDetail() {
         />
       )}
 
-      <p><strong>Profesor:</strong> {activity.professor}</p>
-      <p><strong>Día:</strong> {activity.day}</p>
-      <p><strong>Horario:</strong> {activity.time}</p>
-      <p><strong>Duración:</strong> {activity.duration}</p>
-      <p><strong>Categoría:</strong> {activity.category}</p>
-      <p><strong>Cupo:</strong> {activity.capacity} personas</p>
-      <p><strong>Descripción:</strong> {activity.description}</p>
+      <p><strong>Profesor:</strong> {activity.profesor}</p>
+      <p><strong>Fecha:</strong> {activity.fecha}</p>
+      <p><strong>Duración:</strong> {activity.duracion} minutos</p>
+      <p><strong>Categoría:</strong> {activity.categoria}</p>
+      <p><strong>Cupo máximo:</strong> {activity.cupo_max} personas</p>
+      <p><strong>Descripción:</strong> {activity.descripcion}</p>
 
       {!user?.esAdmin && (
         <>
@@ -122,7 +154,6 @@ function ActivityDetail() {
           >
             Eliminar
           </button>
-
         </div>
       )}
 

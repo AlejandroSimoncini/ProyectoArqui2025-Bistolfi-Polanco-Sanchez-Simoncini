@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../styles/home.css';
 import '../pages/ActivityDetail'
 import ActivityCard from '../components/ActivityCard'
@@ -43,10 +43,18 @@ const ActivityInfo = ({ selectedActivity }) => {
 };
 
 const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
-  const storedActivities = JSON.parse(localStorage.getItem("activities")) || require('../mocks/activities.json').activities;
+  const [activities, setActivities] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredActivities, setFilteredActivities] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+
+  // Cargar actividades desde el backend al montar el componente
+  useEffect(() => {
+    fetch('http://localhost/actividades')
+      .then(res => res.json())
+      .then(data => setActivities(data))
+      .catch(() => setActivities([]));
+  }, []);
 
   const handleSearch = () => {
     const lowerSearch = search.toLowerCase().trim();
@@ -58,13 +66,12 @@ const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
       return;
     }
 
-    const results = storedActivities.filter((activity) =>
-      activity.title.toLowerCase().includes(lowerSearch) ||
-      activity.category.toLowerCase().includes(lowerSearch) ||
-      activity.day.toLowerCase().includes(lowerSearch) ||
-      activity.time.toLowerCase().includes(lowerSearch) ||
-      activity.professor.toLowerCase().includes(lowerSearch)
-    );
+  const results = activities.filter((activity) =>
+  (activity.nombre && activity.nombre.toLowerCase().includes(lowerSearch)) ||
+  (activity.categoria && activity.categoria.toLowerCase().includes(lowerSearch)) ||
+  (activity.fecha && activity.fecha.toLowerCase().includes(lowerSearch)) ||
+  (activity.profesor && activity.profesor.toLowerCase().includes(lowerSearch))
+);
 
     setFilteredActivities(results);
     setHasSearched(true);
