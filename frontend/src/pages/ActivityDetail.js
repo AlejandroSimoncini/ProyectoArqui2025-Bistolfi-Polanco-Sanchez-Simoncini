@@ -20,25 +20,26 @@ function ActivityDetail() {
 
   // Verificar si el usuario ya está inscripto
   useEffect(() => {
-    if (!user || !user.id) return;
-    // Asegurarse que user.id es número
-    const userIdNum = Number(user.id);
-    if (isNaN(userIdNum)) {
-      setMensaje("Usuario inválido en sesión. Cerrá sesión y volvé a ingresar.");
-      return;
+  if (!user || !user.id) return;
+  const userIdNum = Number(user.id);
+  if (isNaN(userIdNum)) {
+    setMensaje("Usuario inválido en sesión. Cerrá sesión y volvé a ingresar.");
+    return;
+  }
+  fetch(`http://localhost/socio/usuarios/${userIdNum}/actividades`, {
+    headers: {
+      'Authorization': 'Token ' + localStorage.getItem('token')
     }
-    fetch(`http://localhost/socio/actividades/${userIdNum}`, {
-      headers: {
-        'Authorization': 'Token ' + localStorage.getItem('token')
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log("Actividades del usuario:", data);
+      console.log("ID actual:", id);
+      if (Array.isArray(data) && data.some(a => String(a.id) === String(id))) {
+        setInscripto(true);
       }
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data) && data.some(a => a.id === Number(id))) {
-          setInscripto(true);
-        }
-      });
-  }, [id, user]);
+    });
+}, [id, user]);
 
   // Inscripción usando el backend
   const manejarInscripcion = async () => {
