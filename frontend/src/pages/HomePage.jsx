@@ -27,15 +27,20 @@ const HomePage = () => {
     localStorage.removeItem("user");
     navigate("/");
   };
-
+  
+{/* cambie esto */}
   const handleShowMyActivitiesClick = async () => {
     try {
-      const res = await fetch(`http://localhost:8080/socio/actividades/${user.id}`, {
-        headers: {
-          'Authorization': 'Token ' + localStorage.getItem('token')
-        }
-      });
-      if (!res.ok) throw new Error('Error al obtener actividades');
+      const res = await fetch(`http://localhost/socio/usuarios/${user.id}/actividades`, {
+  headers: {
+    'Authorization': 'Token ' + localStorage.getItem('token')
+  }
+});
+      if (!res.ok) {
+        setMyActivities([]);
+        setShowMyActivities(true);
+        return;
+      }
       const actividadesUsuario = await res.json();
       setMyActivities(actividadesUsuario);
       setShowMyActivities(true);
@@ -109,20 +114,24 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* LISTADO DE ACTIVIDADES INSCRIPTAS */}
-      {!user.esAdmin && showMyActivities && (
-  <div className="myActivitiesList">
-    <h2>Mis Actividades</h2>
-    {myActivities.length === 0 ? (
-      <p>No estás inscripto a ninguna actividad.</p>
-    ) : (
-      <div className="activityList">
-        {myActivities.map((activity) => (
-          <ActivityCard key={activity.id} activity={activity} />
-        ))}
-      </div>
-    )}
-  </div>
+      {/* LISTADO DE ACTIVIDADES INSCRIPTAS */} {/* cambie esto */}
+      {/* LISTADO DE ACTIVIDADES INSCRIPTAS */} {/* cambie esto */}
+{!user.esAdmin && showMyActivities && (
+  <>
+    {console.log("Mis actividades:", myActivities)}
+    <div className="myActivitiesList">
+      <h2>Mis Actividades</h2>
+      {myActivities.length === 0 ? (
+        <p>No estás inscripto a ninguna actividad.</p>
+      ) : (
+        <div className="activityList">
+          {myActivities.map((activity) => (
+            <ActivityCard key={activity.id} activity={activity} />
+          ))}
+        </div>
+      )}
+    </div>
+  </>
 )}
 
     </div>
