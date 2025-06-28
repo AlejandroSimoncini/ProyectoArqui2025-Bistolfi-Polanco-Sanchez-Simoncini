@@ -34,7 +34,7 @@ const ActivityInfo = ({ selectedActivity }) => {
           </Link>
         </>
       ) : (
-        <p>Hacé clic en una actividad para ver los detalles</p>
+        <p>Haz clic en una actividad para ver los detalles</p>
       )}
     </div>
   );

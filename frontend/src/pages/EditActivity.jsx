@@ -108,7 +108,7 @@ const EditActivity = () => {
         </div>
         <div className="form-group">
           <label>Fecha</label>
-          <input type="date" name="fecha" value={formData.fecha} onChange={handleChange} required />
+          <input type="text" name="fecha" value={formData.fecha} onChange={handleChange} required />
         </div>
         <div className="form-group">
           <label>Duración (minutos)</label>

@@ -11,7 +11,6 @@ function ActivityCard({ activity, onClick }) {
       }}
     >
       <h2>{activity.nombre}</h2>
-      <p><strong>Fecha:</strong> {activity.fecha}</p>
     </div>
   );
 }
