@@ -3,21 +3,16 @@ import '../styles/home.css';
 import ActivityCard from '../components/ActivityCard';
 import ActivityDetail from './ActivityDetail';
 import { ActivitiesImages, ActivityInfo, ActivitySearch } from '../components/ActivityData';
-import { UserInfo, AllUsersInfo } from '../components/UserData';
+import { UserInfo } from '../components/UserData';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const [selectedActivity, setSelectedActivity] = useState(null);
-  const [showUsersList, setShowUsersList] = useState(false);
   const [showMyActivities, setShowMyActivities] = useState(false);
   const [myActivities, setMyActivities] = useState([]);
 
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-
-  const handleShowUsersClick = () => {
-    setShowUsersList(!showUsersList);
-  };
 
   const handleAddActivity = () => {
     navigate("/actividad/nueva");
@@ -27,15 +22,14 @@ const HomePage = () => {
     localStorage.removeItem("user");
     navigate("/");
   };
-  
-{/* cambie esto */}
+
   const handleShowMyActivitiesClick = async () => {
     try {
       const res = await fetch(`http://localhost/socio/usuarios/${user.id}/actividades`, {
-  headers: {
-    'Authorization': 'Token ' + localStorage.getItem('token')
-  }
-});
+        headers: {
+          'Authorization': 'Token ' + localStorage.getItem('token')
+        }
+      });
       if (!res.ok) {
         setMyActivities([]);
         setShowMyActivities(true);
@@ -49,7 +43,6 @@ const HomePage = () => {
       setShowMyActivities(true);
     }
   };
-  
 
   return (
     <div className="home-container">
@@ -60,12 +53,6 @@ const HomePage = () => {
       </div>
 
       <div className="gridContainer">
-        {user.esAdmin && showUsersList && (
-          <div className="allUsersList">
-            <AllUsersInfo />
-          </div>
-        )}
-
         <div className="parent">
           <div className="div1">
             <div className="left">
@@ -96,9 +83,6 @@ const HomePage = () => {
       {/* BOTONES SOLO PARA ADMIN */}
       {user.esAdmin && (
         <div className="buttonContainer">
-          <button onClick={handleShowUsersClick}>
-            <strong>Lista de Usuarios</strong>
-          </button>
           <button onClick={handleAddActivity}>
             <strong>Agregar actividad</strong>
           </button>
@@ -114,25 +98,24 @@ const HomePage = () => {
         </div>
       )}
 
-      {/* LISTADO DE ACTIVIDADES INSCRIPTAS */} {/* cambie esto */}
-      {/* LISTADO DE ACTIVIDADES INSCRIPTAS */} {/* cambie esto */}
-{!user.esAdmin && showMyActivities && (
-  <>
-    {console.log("Mis actividades:", myActivities)}
-    <div className="myActivitiesList">
-      <h2>Mis Actividades</h2>
-      {myActivities.length === 0 ? (
-        <p>No estás inscripto a ninguna actividad.</p>
-      ) : (
-        <div className="activityList">
-          {myActivities.map((activity) => (
-            <ActivityCard key={activity.id} activity={activity} />
-          ))}
-        </div>
+      {/* LISTADO DE ACTIVIDADES INSCRIPTAS */}
+      {!user.esAdmin && showMyActivities && (
+        <>
+          {console.log("Mis actividades:", myActivities)}
+          <div className="myActivitiesList">
+            <h2>Mis Actividades</h2>
+            {myActivities.length === 0 ? (
+              <p>No estás inscripto a ninguna actividad.</p>
+            ) : (
+              <div className="activityList">
+                {myActivities.map((activity) => (
+                  <ActivityCard key={activity.id} activity={activity} />
+                ))}
+              </div>
+            )}
+          </div>
+        </>
       )}
-    </div>
-  </>
-)}
 
     </div>
   );

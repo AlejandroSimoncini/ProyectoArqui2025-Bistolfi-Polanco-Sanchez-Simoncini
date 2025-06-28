@@ -1,19 +1,18 @@
-function ActivityCard({ activity, onClick }) {
+function UserCard ({user, onClick}) {
   return (
     <div
       onClick={onClick}
       style={{
         border: '1px solid #ccc',
-        padding: 15,
+        padding: 10,
         borderRadius: 8,
         marginBottom: 10,
         cursor: 'pointer'
       }}
     >
-      <h2>{activity.nombre}</h2>
-      <p><strong>Fecha:</strong> {activity.fecha}</p>
+      <h2>{user.nombre}</h2>
     </div>
   );
 }
 
-export default ActivityCard;
+export default UserCard;
