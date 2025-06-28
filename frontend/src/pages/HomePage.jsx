@@ -109,8 +109,12 @@ const HomePage = () => {
             ) : (
               <div className="activityList">
                 {myActivities.map((activity) => (
-                  <ActivityCard key={activity.id} activity={activity} />
-                ))}
+  <ActivityCard
+    key={activity.id}
+    activity={activity}
+    onClick={() => navigate(`/home/actividad/${activity.id}`)}
+  />
+))}
               </div>
             )}
           </div>

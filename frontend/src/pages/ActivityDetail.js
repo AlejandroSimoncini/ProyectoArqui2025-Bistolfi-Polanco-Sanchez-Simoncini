@@ -102,7 +102,7 @@ function ActivityDetail() {
   if (!activity) {
     return (
       <div className="activity-detail-container">
-        <h1>Actividad no encontrada 😢</h1>
+        <h1>Actividad no encontrada </h1>
         <Link to="/home" className="back-link">← Volver al inicio</Link>
       </div>
     );
@@ -121,7 +121,7 @@ function ActivityDetail() {
       )}
 
       <p><strong>Profesor:</strong> {activity.profesor}</p>
-      <p><strong>Fecha:</strong> {activity.fecha}</p>
+      <p><strong>Horario:</strong> {activity.fecha}</p>
       <p><strong>Duración:</strong> {activity.duracion} minutos</p>
       <p><strong>Categoría:</strong> {activity.categoria}</p>
       <p><strong>Cupo máximo:</strong> {activity.cupo_max} personas</p>
