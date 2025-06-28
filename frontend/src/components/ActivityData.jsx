@@ -26,11 +26,9 @@ const ActivityInfo = ({ selectedActivity }) => {
     <div>
       {selectedActivity ? (
         <>
-          <p><strong>Profesor: </strong>{selectedActivity.professor}</p>
-          <p><strong>Actividad: {selectedActivity.category}</strong></p>
-          <p><strong>Día: {selectedActivity.day}</strong></p>
-          <p><strong>Hora: {selectedActivity.time}</strong></p>
-
+          <p><strong>{selectedActivity.nombre}</strong></p>
+          <p><strong>Fecha: </strong>{selectedActivity.fecha}</p>
+          <p><strong>Profesor: </strong>{selectedActivity.profesor}</p>
           <Link to={`/home/actividad/${selectedActivity.id}`}>
             <button className="activityButton">Ver más info.</button>
           </Link>
