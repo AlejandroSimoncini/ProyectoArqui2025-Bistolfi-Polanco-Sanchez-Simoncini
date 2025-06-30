@@ -1,4 +1,4 @@
-function UserCard ({user, onClick}) {
+function UserCard({ user, onClick }) {
   return (
     <div
       onClick={onClick}

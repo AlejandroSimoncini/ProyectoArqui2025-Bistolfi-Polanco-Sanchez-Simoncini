@@ -10,8 +10,7 @@ function ActivityCard({ activity, onClick }) {
         cursor: 'pointer'
       }}
     >
-      <h2>{activity.title}</h2>
-      <p><strong>Día:</strong> {activity.day}</p>
+      <h2>{activity.nombre}</h2>
     </div>
   );
 }

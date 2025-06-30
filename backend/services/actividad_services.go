@@ -37,7 +37,7 @@ func UpdateActividad(id string, updatedActividad models.Actividad) error {
 
 	actividad.Nombre = updatedActividad.Nombre
 	actividad.Descripcion = updatedActividad.Descripcion
-	actividad.Fecha = updatedActividad.Fecha
+	actividad.FechaHorario = updatedActividad.FechaHorario
 	actividad.Duracion = updatedActividad.Duracion
 	actividad.Profesor = updatedActividad.Profesor
 	actividad.Categoria = updatedActividad.Categoria

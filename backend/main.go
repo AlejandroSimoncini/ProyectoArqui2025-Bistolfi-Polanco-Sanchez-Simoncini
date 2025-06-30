@@ -14,7 +14,12 @@ import (
 func main() {
 	config.InitDB()    // Inicializar la conexión a la base de datos (primero al iniciar programa)
 	r := gin.Default() // Crear una nueva instancia del framework web gin
-	r.Use(cors.Default())
+	/*r.Use(cors.Default())*/
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
+	}))
 
 	//rutas publicas (disponibles sin autenticación)
 	// Rutas públicas

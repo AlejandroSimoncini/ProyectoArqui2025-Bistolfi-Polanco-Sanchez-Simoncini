@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import '../styles/home.css';
 import '../pages/ActivityDetail'
 import ActivityCard from '../components/ActivityCard'
-import ActivityData from '../mocks/activities.json'
+import { Link } from 'react-router-dom';
 
-
-
-const ActivitiesImages = () => {
+const ActivitiesImages = ({ selectedActivity }) => {
   const defaultProfileImage = "https://i.pinimg.com/474x/bd/f4/d3/bdf4d3fe1f9a17136319df951fe9b3e0.jpg";
-  const [selectedActivity, setSelectedActivity] = useState(null);
-
-
   return (
     <div>
       {selectedActivity ? (
@@ -26,70 +21,54 @@ const ActivitiesImages = () => {
   );
 };
 
-const ActivityInfo = () => {
-  const [selectedActivity, setSelectedActivity] = useState(null);
-
+const ActivityInfo = ({ selectedActivity }) => {
   return (
     <div>
       {selectedActivity ? (
         <>
-          <p><strong>Profesor: </strong>{selectedActivity.professor}</p>
-          <p><strong>Actividad: {selectedActivity.category}</strong></p>
-          <p><strong>Día: {selectedActivity.day}</strong></p>
-          <p><strong>Hora: {selectedActivity.time}</strong></p>
-          <button className="activityButton">Ver mas info.</button>
+          <p><strong>{selectedActivity.nombre}</strong></p>
+          <p><strong>FechaHorario: </strong>{selectedActivity.fechahorario}</p>
+          <p><strong>Profesor: </strong>{selectedActivity.profesor}</p>
+          <Link to={`/home/actividad/${selectedActivity.id}`}>
+            <button className="activityButton">Ver más info.</button>
+          </Link>
         </>
       ) : (
-        <p>Hacé clic en una actividad para ver los detalles</p>
+        <p>Haz clic en una actividad para ver los detalles</p>
       )}
     </div>
   );
-}
+};
 
 const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
+  const [activities, setActivities] = useState([]);
   const [search, setSearch] = useState("");
   const [filteredActivities, setFilteredActivities] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [allActivities, setAllActivities] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  // Cargar actividades del backend al montar el componente
+  // Cargar actividades desde el backend al montar el componente
   useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/actividades');
-        if (!response.ok) {
-          throw new Error('Error al cargar actividades');
-        }
-        const data = await response.json();
-        setAllActivities(data);
-      } catch (err) {
-        setError(err.message);
-        console.error("Error fetching activities:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchActivities();
+    fetch('http://localhost:80/actividades')
+      .then(res => res.json())
+      .then(data => setActivities(data))
+      .catch(() => setActivities([]));
   }, []);
 
   const handleSearch = () => {
     const lowerSearch = search.toLowerCase().trim();
 
+    // No buscamos si no se escribió nada
     if (lowerSearch === "") {
       setFilteredActivities([]);
       setHasSearched(false);
       return;
     }
 
-    const results = allActivities.filter((activity) =>
-      (activity.title && activity.title.toLowerCase().includes(lowerSearch)) ||
-      (activity.category && activity.category.toLowerCase().includes(lowerSearch)) ||
-      (activity.day && activity.day.toLowerCase().includes(lowerSearch)) ||
-      (activity.time && activity.time.toLowerCase().includes(lowerSearch)) ||
-      (activity.professor && activity.professor.toLowerCase().includes(lowerSearch))
+    const results = activities.filter((activity) =>
+      (activity.nombre && activity.nombre.toLowerCase().includes(lowerSearch)) ||
+      (activity.categoria && activity.categoria.toLowerCase().includes(lowerSearch)) ||
+      (activity.fechahorario && activity.fechahorario.toLowerCase().includes(lowerSearch)) ||
+      (activity.profesor && activity.profesor.toLowerCase().includes(lowerSearch))
     );
 
     setFilteredActivities(results);
@@ -102,45 +81,31 @@ const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
     }
   };
 
-  if (loading) return <p>Cargando actividades...</p>;
-  if (error) return <p className="error">Error: {error}</p>;
-
   return (
-    <div className="activity-search-container">
+    <div>
       <input
         type="text"
         placeholder="Buscar por título, categoría, día, hora o profesor"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={handleKeyPress}
-        className="search-input"
-        disabled={loading}
+        className="search"
       />
-      <button
-        onClick={handleSearch}
-        className="search-button"
-        disabled={loading}
-      >
-        Buscar
-      </button>
 
-      {hasSearched && (
-        <div className="search-results">
-          {filteredActivities.length === 0 ? (
-            <p className="no-results">No se encontraron actividades.</p>
-          ) : (
-            filteredActivities.map((activity) => (
-              <ActivityCard
-                key={activity.id}
-                activity={activity}
-                onClick={() => setSelectedActivity(activity)}
-                className="activity-card"
-              />
-            ))
-          )}
-        </div>
+      {hasSearched && filteredActivities.length === 0 ? (
+        <p>No se encontraron actividades.</p>
+      ) : (
+        hasSearched && filteredActivities.map((activity) => (
+          <ActivityCard
+            key={activity.id}
+            activity={activity}
+            onClick={() => setSelectedActivity(activity)}
+          />
+        ))
       )}
     </div>
   );
 };
+
+
 export { ActivitiesImages, ActivityInfo, ActivitySearch };

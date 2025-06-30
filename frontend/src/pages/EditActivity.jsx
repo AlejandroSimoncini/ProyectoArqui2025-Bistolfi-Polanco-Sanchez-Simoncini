@@ -1,120 +1,135 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import activities from '../mocks/activities.json';
 import { useState, useEffect } from 'react';
 import '../styles/EditActivity.css';
 
 const EditActivity = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const storedActivities = JSON.parse(localStorage.getItem("activities")) || activities.activities;
   const isNew = !id;
-  const existingActivity = storedActivities.find(a => a.id === Number(id));
 
   const [formData, setFormData] = useState({
-    id: null,
-    title: "",
-    professor: "",
-    day: "",
-    time: "",
-    duration: "",
-    category: "",
-    capacity: 0,
-    description: "",
+    nombre: "",
+    profesor: "",
+    fechahorario: "",
+    duracion: "",
+    categoria: "",
+    cupo_max: 0,
+    descripcion: "",
     imagen: ""
   });
 
+  // Cargar datos de la actividad desde el backend si es edición
   useEffect(() => {
-  if (!isNew) {
-    if (existingActivity) {
-      setFormData({ ...existingActivity });
-    } else {
-      console.warn("Actividad no encontrada para edición");
+    if (!isNew) {
+      fetch(`http://localhost:80/actividades/${id}`)
+        .then(res => res.json())
+        .then(data => {
+          setFormData({
+            nombre: data.nombre || "",
+            profesor: data.profesor || "",
+            fechahorario: data.fechahorario || "",
+            duracion: data.duracion || "",
+            categoria: data.categoria || "",
+            cupo_max: data.cupo_max || 0,
+            descripcion: data.descripcion || "",
+            imagen: data.imagen || ""
+          });
+        })
+        .catch(() => {
+          alert("No se pudo cargar la actividad");
+          navigate("/home");
+        });
     }
-  }
-}, [id]);
+  }, [id, isNew, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === "capacity" ? parseInt(value) || 0 : value
+      [name]: name === "cupo_max" || name === "duracion" ? Number(value) : value
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (isNew) {
-      const nuevaActividad = {
-        ...formData,
-        id: Date.now()
-      };
-      const nuevasActividades = [...storedActivities, nuevaActividad];
-      localStorage.setItem("activities", JSON.stringify(nuevasActividades));
-      alert("✅ Actividad creada con éxito");
+    try {
+      let res;
+      if (isNew) {
+        res = await fetch("http://localhost:80/admin/actividad", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Token " + localStorage.getItem("token")
+          },
+          body: JSON.stringify(formData)
+        });
+      } else {
+        res = await fetch(`http://localhost:80/admin/actividad/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Token " + localStorage.getItem("token")
+          },
+          body: JSON.stringify(formData)
+        });
+      }
+
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.mensaje || "Error al guardar la actividad");
+        return;
+      }
+      alert(isNew ? "✅ Actividad creada con éxito" : "✅ Cambios guardados");
       navigate("/home");
-    } else {
-      const actividadesActualizadas = storedActivities.map(a =>
-        a.id === Number(id) ? { ...formData, id: Number(id) } : a
-      );
-      localStorage.setItem("activities", JSON.stringify(actividadesActualizadas));
-      alert("✅ Cambios guardados");
-      navigate(`/home/actividad/${id}`);
+    } catch {
+      alert("Error de conexión con el servidor");
     }
   };
 
-  if (!isNew && !existingActivity) {
-    return <p>Actividad no encontrada.</p>;
+  if (!isNew && !formData.nombre) {
+    return <p>Cargando actividad...</p>;
   }
 
   return (
     <div className="edit-container">
-      <h2>{isNew ? "Crear nueva actividad" : `Editar actividad: ${formData.title}`}</h2>
-
+      <h2>{isNew ? "Crear nueva actividad" : `Editar actividad: ${formData.nombre}`}</h2>
       {!isNew && (
-        <p><strong>ID de actividad:</strong> {formData.id}</p>
+        <p><strong>ID de actividad:</strong> {id}</p>
       )}
-
       <form onSubmit={handleSubmit}>
-        {/* Mapeamos manualmente para mejor control de orden y etiquetas */}
         <div className="form-group">
-          <label>Título</label>
-          <input type="text" name="title" value={formData.title} onChange={handleChange} required />
+          <label>Nombre</label>
+          <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
         </div>
         <div className="form-group">
           <label>Profesor</label>
-          <input type="text" name="professor" value={formData.professor} onChange={handleChange} required />
+          <input type="text" name="profesor" value={formData.profesor} onChange={handleChange} required />
         </div>
         <div className="form-group">
-          <label>Día</label>
-          <input type="text" name="day" value={formData.day} onChange={handleChange} required />
+          <label>FechaHorario</label>
+          <input type="text" name="fechahorario" value={formData.fechahorario} onChange={handleChange} required />
         </div>
         <div className="form-group">
-          <label>Horario</label>
-          <input type="text" name="time" value={formData.time} onChange={handleChange} required />
-        </div>
-        <div className="form-group">
-          <label>Duración</label>
-          <input type="text" name="duration" value={formData.duration} onChange={handleChange} required />
+          <label>Duración (minutos)</label>
+          <input type="number" name="duracion" value={formData.duracion} onChange={handleChange} required />
         </div>
         <div className="form-group">
           <label>Categoría</label>
-          <input type="text" name="category" value={formData.category} onChange={handleChange} required />
+          <input type="text" name="categoria" value={formData.categoria} onChange={handleChange} required />
         </div>
         <div className="form-group">
-          <label>Cupo</label>
-          <input type="number" name="capacity" value={formData.capacity} onChange={handleChange} required />
+          <label>Cupo máximo</label>
+          <input type="number" name="cupo_max" value={formData.cupo_max} onChange={handleChange} required />
         </div>
         <div className="form-group">
           <label>Descripción</label>
-          <textarea name="description" value={formData.description} onChange={handleChange} required />
+          <textarea name="descripcion" value={formData.descripcion} onChange={handleChange} required />
         </div>
         <div className="form-group">
           <label>URL Imagen</label>
           <input type="text" name="imagen" value={formData.imagen} onChange={handleChange} />
         </div>
-
         <button type="submit">{isNew ? "Crear actividad" : "Guardar cambios"}</button>
       </form>
     </div>
