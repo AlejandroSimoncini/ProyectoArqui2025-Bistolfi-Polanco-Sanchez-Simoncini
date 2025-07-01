@@ -43,7 +43,8 @@ body {
     display: flex;
 }
 
-.left, .right {
+.left,
+.right {
     flex: 0.4;
     margin: 2%;
 }
@@ -188,14 +189,19 @@ body {
 }
 
 .logout-button-container {
-    position: absolute; /* O 'fixed' si quieres que siempre esté visible al hacer scroll */
-    top: 20px; /* Distancia desde la parte superior */
-    right: 20px; /* Distancia desde la derecha */
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    position: absolute;
+    /* O 'fixed' si quieres que siempre esté visible al hacer scroll */
+    top: 20px;
+    /* Distancia desde la parte superior */
+    right: 20px;
+    /* Distancia desde la derecha */
+    z-index: 1000;
+    /* Asegura que esté por encima de otros elementos */
 }
 
 .logout-button {
-    background-color: #dc3545; /* Un rojo para indicar "salir" o "peligro" */
+    background-color: #dc3545;
+    /* Un rojo para indicar "salir" o "peligro" */
     color: white;
     padding: 10px 20px;
     border: none;
@@ -207,7 +213,8 @@ body {
 }
 
 .logout-button:hover {
-    background-color: #c82333; /* Un rojo más oscuro al pasar el mouse */
+    background-color: #c82333;
+    /* Un rojo más oscuro al pasar el mouse */
     scale: 1.02;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.575);
 }
@@ -215,39 +222,60 @@ body {
 
 /* --- Estos son los estilos que agregamos para "Mis Actividades" --- */
 .myActivitiesList {
-    background-color: wheat; /* Color de fondo similar a otras secciones */
-    border-radius: 20px; /* Bordes redondeados */
-    margin-top: 1rem; /* Espacio superior para separarlo del botón */
-    padding: 1.5rem; /* Relleno interno para el contenido */
-    color: rgb(1, 80, 54); /* Color del texto */
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Misma fuente */
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479); /* Sombra para el efecto de profundidad */
-    max-height: 300px; /* Altura máxima para permitir el scroll si hay muchas actividades */
-    overflow-y: auto; /* Habilita el scroll vertical si el contenido excede la altura máxima */
+    background-color: wheat;
+    /* Color de fondo similar a otras secciones */
+    border-radius: 20px;
+    /* Bordes redondeados */
+    margin-top: 1rem;
+    /* Espacio superior para separarlo del botón */
+    padding: 1.5rem;
+    /* Relleno interno para el contenido */
+    color: rgb(1, 80, 54);
+    /* Color del texto */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /* Misma fuente */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.479);
+    /* Sombra para el efecto de profundidad */
+    max-height: 300px;
+    /* Altura máxima para permitir el scroll si hay muchas actividades */
+    overflow-y: auto;
+    /* Habilita el scroll vertical si el contenido excede la altura máxima */
 }
 
 .myActivitiesList h2 {
-    text-align: center; /* Centra el título */
-    margin-bottom: 1rem; /* Espacio debajo del título */
-    color: rgb(1, 80, 54); /* Color del título */
+    text-align: center;
+    /* Centra el título */
+    margin-bottom: 1rem;
+    /* Espacio debajo del título */
+    color: rgb(1, 80, 54);
+    /* Color del título */
 }
 
 .myActivitiesList ul {
-    list-style: none; /* Quita los puntos de la lista */
-    padding: 0; /* Elimina el padding predeterminado de la lista */
+    list-style: none;
+    /* Quita los puntos de la lista */
+    padding: 0;
+    /* Elimina el padding predeterminado de la lista */
 }
 
 .myActivitiesList li {
-    background-color: rgba(245, 222, 179, 0.7); /* Un color de fondo ligeramente diferente para cada item */
-    margin-bottom: 0.5rem; /* Espacio entre cada actividad */
-    padding: 0.8rem 1rem; /* Relleno para cada item de la lista */
-    border-radius: 10px; /* Bordes redondeados para cada item */
-    border: 1px solid rgba(1, 80, 54, 0.2); /* Borde sutil */
+    background-color: rgba(245, 222, 179, 0.7);
+    /* Un color de fondo ligeramente diferente para cada item */
+    margin-bottom: 0.5rem;
+    /* Espacio entre cada actividad */
+    padding: 0.8rem 1rem;
+    /* Relleno para cada item de la lista */
+    border-radius: 10px;
+    /* Bordes redondeados para cada item */
+    border: 1px solid rgba(1, 80, 54, 0.2);
+    /* Borde sutil */
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Alinea el contenido y el posible botón a los extremos */
+    justify-content: space-between;
+    /* Alinea el contenido y el posible botón a los extremos */
 }
 
 .myActivitiesList li:last-child {
-    margin-bottom: 0; /* No hay margen inferior para el último item */
+    margin-bottom: 0;
+    /* No hay margen inferior para el último item */
 }

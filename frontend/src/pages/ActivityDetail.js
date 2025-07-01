@@ -12,7 +12,7 @@ function ActivityDetail() {
 
   // Traer la actividad desde el backend
   useEffect(() => {
-    fetch(`http://localhost/actividades/${id}`)
+    fetch(`http://localhost:80/actividades/${id}`)
       .then(res => res.json())
       .then(data => setActivity(data))
       .catch(() => setActivity(null));
@@ -20,26 +20,26 @@ function ActivityDetail() {
 
   // Verificar si el usuario ya está inscripto
   useEffect(() => {
-  if (!user || !user.id) return;
-  const userIdNum = Number(user.id);
-  if (isNaN(userIdNum)) {
-    setMensaje("Usuario inválido en sesión. Cerrá sesión y volvé a ingresar.");
-    return;
-  }
-  fetch(`http://localhost/socio/usuarios/${userIdNum}/actividades`, {
-    headers: {
-      'Authorization': 'Token ' + localStorage.getItem('token')
+    if (!user || !user.id) return;
+    const userIdNum = Number(user.id);
+    if (isNaN(userIdNum)) {
+      setMensaje("Usuario inválido en sesión. Cerrá sesión y volvé a ingresar.");
+      return;
     }
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log("Actividades del usuario:", data);
-      console.log("ID actual:", id);
-      if (Array.isArray(data) && data.some(a => String(a.id) === String(id))) {
-        setInscripto(true);
+    fetch(`http://localhost:80/socio/usuarios/${userIdNum}/actividades`, {
+      headers: {
+        'Authorization': 'Token ' + localStorage.getItem('token')
       }
-    });
-}, [id, user]);
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("Actividades del usuario:", data);
+        console.log("ID actual:", id);
+        if (Array.isArray(data) && data.some(a => String(a.id) === String(id))) {
+          setInscripto(true);
+        }
+      });
+  }, [id, user]);
 
   // Inscripción usando el backend
   const manejarInscripcion = async () => {
@@ -53,7 +53,7 @@ function ActivityDetail() {
       return;
     }
     try {
-      const res = await fetch(`http://localhost/socio/inscribir/${userIdNum}/${id}`, {
+      const res = await fetch(`http://localhost:80/socio/inscribir/${userIdNum}/${id}`, {
         method: 'POST',
         headers: {
           'Authorization': 'Token ' + localStorage.getItem('token')
@@ -83,7 +83,7 @@ function ActivityDetail() {
     const confirmDelete = window.confirm("¿Estás seguro de que querés eliminar esta actividad?");
     if (!confirmDelete) return;
     try {
-      const res = await fetch(`http://localhost/admin/actividad/${id}`, {
+      const res = await fetch(`http://localhost:80/admin/actividad/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': 'Token ' + localStorage.getItem('token')
@@ -122,7 +122,7 @@ function ActivityDetail() {
       )}
 
       <p><strong>Profesor:</strong> {activity.profesor}</p>
-      <p><strong>Horario:</strong> {activity.fecha}</p>
+      <p><strong>Día y Hora:</strong> {activity.fechahorario}</p>
       <p><strong>Duración:</strong> {activity.duracion} minutos</p>
       <p><strong>Categoría:</strong> {activity.categoria}</p>
       <p><strong>Cupo máximo:</strong> {activity.cupo_max} personas</p>

@@ -10,7 +10,7 @@ const EditActivity = () => {
   const [formData, setFormData] = useState({
     nombre: "",
     profesor: "",
-    fecha: "",
+    fechahorario: "",
     duracion: "",
     categoria: "",
     cupo_max: 0,
@@ -21,13 +21,13 @@ const EditActivity = () => {
   // Cargar datos de la actividad desde el backend si es edición
   useEffect(() => {
     if (!isNew) {
-      fetch(`http://localhost/actividades/${id}`)
+      fetch(`http://localhost:80/actividades/${id}`)
         .then(res => res.json())
         .then(data => {
           setFormData({
             nombre: data.nombre || "",
             profesor: data.profesor || "",
-            fecha: data.fecha || "",
+            fechahorario: data.fechahorario || "",
             duracion: data.duracion || "",
             categoria: data.categoria || "",
             cupo_max: data.cupo_max || 0,
@@ -56,7 +56,7 @@ const EditActivity = () => {
     try {
       let res;
       if (isNew) {
-        res = await fetch("http://localhost/admin/actividad", {
+        res = await fetch("http://localhost:80/admin/actividad", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const EditActivity = () => {
           body: JSON.stringify(formData)
         });
       } else {
-        res = await fetch(`http://localhost/admin/actividad/${id}`, {
+        res = await fetch(`http://localhost:80/admin/actividad/${id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -107,8 +107,8 @@ const EditActivity = () => {
           <input type="text" name="profesor" value={formData.profesor} onChange={handleChange} required />
         </div>
         <div className="form-group">
-          <label>Fecha</label>
-          <input type="text" name="fecha" value={formData.fecha} onChange={handleChange} required />
+          <label>Día y Hora</label>
+          <input type="text" name="fechahorario" value={formData.fechahorario} onChange={handleChange} required />
         </div>
         <div className="form-group">
           <label>Duración (minutos)</label>

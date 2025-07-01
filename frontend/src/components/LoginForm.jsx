@@ -11,48 +11,48 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  function parseJwt(token) {
+    function parseJwt(token) {
+      try {
+        return JSON.parse(atob(token.split('.')[1]));
+      } catch (e) {
+        return null;
+      }
+    }
+
     try {
-      return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
-      return null;
+      const res = await fetch('http://localhost:80/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user, contrasenia: pass })
+      });
+
+      if (!res.ok) {
+        alert('Credenciales inválidas');
+        return;
+      }
+
+      const data = await res.json();
+      console.log("Datos recibidos del backend:", data);
+
+      // Guardar token y datos de usuario en localStorage usando el JWT
+      localStorage.setItem('token', data.token);
+
+      const payload = parseJwt(data.token);
+      console.log("Payload JWT:", payload);
+
+      localStorage.setItem('user', JSON.stringify({
+        id: payload.usuarioID, // o el campo correcto según tu JWT
+        name: payload.username, // si existe
+        esAdmin: payload.rol === "admin" // o como lo manejes
+      }));
+
+      navigate('/home');
+    } catch (error) {
+      alert('Error de conexión con el servidor');
     }
-  }
-
-  try {
-    const res = await fetch('http://localhost/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: user, contrasenia: pass })
-    });
-
-    if (!res.ok) {
-      alert('Credenciales inválidas');
-      return;
-    }
-
-    const data = await res.json();
-    console.log("Datos recibidos del backend:", data);
-
-    // Guardar token y datos de usuario en localStorage usando el JWT
-    localStorage.setItem('token', data.token);
-
-    const payload = parseJwt(data.token);
-    console.log("Payload JWT:", payload);
-
-    localStorage.setItem('user', JSON.stringify({
-      id: payload.usuarioID, // o el campo correcto según tu JWT
-      name: payload.username, // si existe
-      esAdmin: payload.rol === "admin" // o como lo manejes
-    }));
-
-    navigate('/home');
-  } catch (error) {
-    alert('Error de conexión con el servidor');
-  }
-};
+  };
 
   return (
     <div className="LoginContainer">

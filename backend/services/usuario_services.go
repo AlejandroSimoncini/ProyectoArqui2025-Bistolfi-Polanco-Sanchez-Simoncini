@@ -20,12 +20,12 @@ func ObtenerUsuarioPorEmail(email string) (*models.Usuario, error) {
 	return &user, nil
 }
 
-// (jaz) aca cambie los nombres de actividads a actividades y inscripcions a inscripciones para poder conectar a mi bd
 func GetActividadesPorUsuarioID(userID uint) ([]models.Actividad, error) {
 	var actividades []models.Actividad
 	err := config.DB.
 		Joins("JOIN inscripciones ON inscripciones.actividad_id = actividades.id").
 		Where("inscripciones.usuario_id = ?", userID).
 		Find(&actividades).Error
+
 	return actividades, err
 }

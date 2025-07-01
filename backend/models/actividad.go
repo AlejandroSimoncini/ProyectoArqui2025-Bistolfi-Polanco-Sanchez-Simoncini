@@ -9,10 +9,11 @@ type Actividad struct {
 	ID            uint          `gorm:"primaryKey" json:"id"`
 	Nombre        string        `json:"nombre"`
 	Descripcion   string        `json:"descripcion"`
-	Fecha         string        `json:"fecha"`
+	FechaHorario  string        `json:"fechahorario"`
 	Duracion      int           `json:"duracion"`
 	Categoria     string        `json:"categoria"`
 	Profesor      string        `json:"profesor"`
 	CupoMAX       int           `json:"cupo_max"`
+	Imagen        string        `json:"imagen"`
 	Inscripciones []Inscripcion `gorm:"foreignKey:ActividadID"`
 }

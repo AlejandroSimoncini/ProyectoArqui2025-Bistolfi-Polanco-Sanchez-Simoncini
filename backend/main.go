@@ -8,19 +8,17 @@ import (
 	"proyectoarquisoft/middlewares"
 
 	"github.com/gin-contrib/cors"
-
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	config.InitDB()    // Inicializar la conexión a la base de datos (primero al iniciar programa)
 	r := gin.Default() // Crear una nueva instancia del framework web gin
-
+	/*r.Use(cors.Default())*/
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
-		AllowCredentials: true,
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
 	}))
 
 	//rutas publicas (disponibles sin autenticación)

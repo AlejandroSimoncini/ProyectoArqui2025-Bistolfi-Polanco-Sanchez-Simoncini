@@ -27,7 +27,7 @@ const ActivityInfo = ({ selectedActivity }) => {
       {selectedActivity ? (
         <>
           <p><strong>{selectedActivity.nombre}</strong></p>
-          <p><strong>Fecha: </strong>{selectedActivity.fecha}</p>
+          <p><strong>Día y Horario: </strong>{selectedActivity.fechahorario}</p>
           <p><strong>Profesor: </strong>{selectedActivity.profesor}</p>
           <Link to={`/home/actividad/${selectedActivity.id}`}>
             <button className="activityButton">Ver más info.</button>
@@ -48,7 +48,7 @@ const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
 
   // Cargar actividades desde el backend al montar el componente
   useEffect(() => {
-    fetch('http://localhost/actividades')
+    fetch('http://localhost:80/actividades')
       .then(res => res.json())
       .then(data => setActivities(data))
       .catch(() => setActivities([]));
@@ -64,12 +64,12 @@ const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
       return;
     }
 
-  const results = activities.filter((activity) =>
-  (activity.nombre && activity.nombre.toLowerCase().includes(lowerSearch)) ||
-  (activity.categoria && activity.categoria.toLowerCase().includes(lowerSearch)) ||
-  (activity.fecha && activity.fecha.toLowerCase().includes(lowerSearch)) ||
-  (activity.profesor && activity.profesor.toLowerCase().includes(lowerSearch))
-);
+    const results = activities.filter((activity) =>
+      (activity.nombre && activity.nombre.toLowerCase().includes(lowerSearch)) ||
+      (activity.categoria && activity.categoria.toLowerCase().includes(lowerSearch)) ||
+      (activity.fechahorario && activity.fechahorario.toLowerCase().includes(lowerSearch)) ||
+      (activity.profesor && activity.profesor.toLowerCase().includes(lowerSearch))
+    );
 
     setFilteredActivities(results);
     setHasSearched(true);
@@ -83,8 +83,8 @@ const ActivitySearch = ({ selectedActivity, setSelectedActivity }) => {
 
   return (
     <div>
-      <input 
-        type="text" 
+      <input
+        type="text"
         placeholder="Buscar por título, categoría, día, hora o profesor"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
