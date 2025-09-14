@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    ports:
+      - "3307:3306"  # Puerto externo 3307 → interno 3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=proyectoarquisoft
+    volumes:
+      - proyectoarquisoft_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: .
+    container_name: go_backend
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    restart: on-failure
+
+volumes:
+  proyectoarquisoft_mysql_data:
