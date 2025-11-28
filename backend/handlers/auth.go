@@ -68,7 +68,7 @@ func Login(c *gin.Context) {
 		"usuarioID": user.ID,
 		"username":  user.Email,
 		"rol":       user.Rol,
-		"exp":       time.Now().Add(time.Hour * 24).Unix(),
+		"exp":       time.Now().Add(5 * time.Minute).Unix(),
 	})
 	tokenString, err := token.SignedString(jwtKey) // Firma el token con la clave secreta
 	if err != nil {
